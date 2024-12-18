@@ -1,4 +1,4 @@
-export class GameState {
+export default class GameState {
     constructor() {
         this.isRunning = false;
         this.isPaused = false;
@@ -11,7 +11,7 @@ export class GameState {
         this.FRAME_TIME = 1 / this.FRAME_RATE;
 
         this.initializeParams();
-        
+
         this.gameLoop = this.gameLoop.bind(this);
     }
 
@@ -20,12 +20,10 @@ export class GameState {
         this.timerElement = document.getElementById('timer');
         this.livesElement = document.getElementById('lives');
         this.pauseMenuElement = document.getElementById('pause-menu');
-        this.continueButton = document.getElementById('continue')
-        this.restartButton = document.getElementById('restart')
 
-        this.continueButton.addEventListener('click', () => this.togglePause());
-        this.restartButton.addEventListener('click',  () => this.restart());
-        
+        document.getElementById('continue').addEventListener('click', () => this.togglePause());
+        document.getElementById('restart').addEventListener('click', () => this.restart());
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 this.togglePause();
@@ -36,42 +34,31 @@ export class GameState {
     start() {
         if (!this.isRunning) {
             this.isRunning = true;
-            this.lastTimestamp = performance.now();
             requestAnimationFrame(this.gameLoop);
         }
     }
 
     gameLoop() {
         if (!this.isPaused) {
-            this.update();
-            this.updateUI();
+            this.gameTime += this.FRAME_TIME;
+            this.scoreElement.textContent = `Score: ${this.score}`;
+            this.timerElement.textContent = `Time: ${this.formatTime(this.gameTime)}`;
+            this.livesElement.textContent = `Lives: ${this.lives}`;
         }
-    
+
         if (this.isRunning) {
             requestAnimationFrame(this.gameLoop);
         }
     }
 
-    update() {
-        this.gameTime += this.FRAME_TIME;
-    }
-
     formatTime(timeInSeconds) {
-        // Convert total seconds into minutes and remaining seconds
         const minutes = Math.floor(timeInSeconds / 60);
         const seconds = Math.floor(timeInSeconds % 60);
-        
-        // Add leading zeros if needed and format as "00:00"
+
         const formattedMinutes = minutes.toString().padStart(2, '0');
         const formattedSeconds = seconds.toString().padStart(2, '0');
-        
-        return `${formattedMinutes}:${formattedSeconds}`;
-    }
 
-    updateUI() {
-        this.scoreElement.textContent = `Score: ${this.score}`;
-        this.timerElement.textContent = `Time: ${this.formatTime(this.gameTime)}`;
-        this.livesElement.textContent = `Lives: ${this.lives}`;
+        return `${formattedMinutes}:${formattedSeconds}`;
     }
 
     togglePause() {
