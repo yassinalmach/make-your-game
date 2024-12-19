@@ -1,4 +1,3 @@
-
 export default class SpaceShip {
     constructor(gameArea) {
         this.gameArea = gameArea;
@@ -6,6 +5,10 @@ export default class SpaceShip {
         this.height = 60;
         this.moveSpeed = 5;
         this.moveDirection = 0;
+
+        this.input = {
+            space: false
+        };
 
         this.createSpaceShip()
 
@@ -29,26 +32,34 @@ export default class SpaceShip {
 
     setupControls() {
         window.addEventListener('keydown', (e) => {
-            switch (e.key) {
+            if (e.repeat) return
+            switch (e.code) {
                 case 'ArrowLeft':
                     this.moveDirection = -1;
                     break;
                 case 'ArrowRight':
                     this.moveDirection = 1;
                     break;
+                case 'Space':
+                    this.input.space = true;
+                    break;
             }
         });
 
         window.addEventListener('keyup', (e) => {
-            if ((e.key === 'ArrowLeft' && this.moveDirection === -1) ||
-                (e.key === 'ArrowRight' && this.moveDirection === 1)) {
+            if ((e.code === 'ArrowLeft' && this.moveDirection === -1) ||
+                (e.code === 'ArrowRight' && this.moveDirection === 1)) {
                 this.moveDirection = 0;
+            }
+            if (e.code === 'Space') {
+                this.input.space = false;
             }
         });
     }
 
     update() {
         if (this.moveDirection !== 0) {
+
             this.position.x += this.moveDirection * this.moveSpeed;
 
             if (this.position.x < 0) {
@@ -60,6 +71,14 @@ export default class SpaceShip {
             }
             this.updatePosition();
         }
+
+        if (this.input.space) {
+            this.shoot();
+        };
+    }
+
+    shoot() {
+        console.log('shooting');
     }
 
     updatePosition() {

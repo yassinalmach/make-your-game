@@ -41,13 +41,14 @@ h1 {
     padding: 10px;
     display: flex;
     justify-content: space-between;
+    z-index: 10;
     transform: translateZ(0);
 }
 
 #game-area {
     position: absolute;
     overflow: hidden;
-    top: 50px;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
@@ -61,6 +62,7 @@ h1 {
     transform: translate(-50%, -50%);
     text-align: center;
     display: none;
+    z-index: 20;
 }
 
 .menu-button {
