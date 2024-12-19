@@ -46,6 +46,7 @@ h1 {
 
 #game-area {
     position: absolute;
+    overflow: hidden;
     top: 50px;
     left: 0;
     right: 0;
@@ -76,4 +77,9 @@ h1 {
 
 .menu-button:hover {
     background-color: #64646479;
+}
+
+.ship {
+    position: absolute;
+    will-change: transform;
 }
