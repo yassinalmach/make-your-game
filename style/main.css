@@ -85,3 +85,16 @@ h1 {
     position: absolute;
     will-change: transform;
 }
+
+.bullet {
+    position: absolute;
+    width: 4px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 2px;
+    will-change: transform;
+    /* Add a subtle glow effect */
+    box-shadow: 0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 15px #0ff;
+}

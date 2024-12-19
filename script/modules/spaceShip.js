@@ -10,13 +10,19 @@ export default class SpaceShip {
             space: false
         };
 
-        this.createSpaceShip()
+        this.shot = {
+            last: 0,
+            cooldown: 1000,
+        };
+
+        this.bullets = new Set();
 
         this.position = {
             x: (gameArea.clientWidth - this.width) / 2,
             y: gameArea.clientHeight - this.height - 10
         };
 
+        this.createSpaceShip()
         this.setupControls();
         this.updatePosition();
     }
@@ -72,16 +78,51 @@ export default class SpaceShip {
             this.updatePosition();
         }
 
-        if (this.input.space) {
+        this.updateBullets();
+    }
+
+    tryShoot() {
+        const currentTime = Date.now();
+
+        if (currentTime - this.shot.last >= this.shot.cooldown) {
             this.shoot();
-        };
+            this.shot.last = currentTime;
+        }
     }
 
     shoot() {
-        console.log('shooting');
+        const bullet = document.createElement('div');
+        bullet.className = 'bullet';
+
+        const bulletX = this.position.x + (this.width / 2) - 2;
+        const bulletY = this.position.y;
+
+        bullet.style.transform = `translate(${bulletX}px, ${bulletY}px)`;
+        this.gameArea.appendChild(bullet);
+
+        const bulletData = {
+            element: bullet,
+            x: bulletX,
+            y: bulletY,
+            speed: 7
+        };
+
+        this.bullets.add(bulletData);
+    }
+
+    updateBullets() {
+        for (const bullet of this.bullets) {
+            bullet.y -= bullet.speed;
+            bullet.element.style.transform = `translate(${bullet.x}px, ${bullet.y}px)`;
+            
+            if (bullet.y < -10) {
+                bullet.element.remove();
+                this.bullets.delete(bullet);
+            }
+        }
     }
 
     updatePosition() {
         this.element.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
     }
-}
+}   
