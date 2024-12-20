@@ -89,12 +89,9 @@ h1 {
 .bullet {
     position: absolute;
     width: 4px;
-    height: 10px;
-    background-color: #fff;
+    height: 12px;
+    background-color: aqua;
     border-radius: 2px;
     will-change: transform;
-    /* Add a subtle glow effect */
-    box-shadow: 0 0 5px #fff,
-                0 0 10px #fff,
-                0 0 15px #0ff;
+    box-shadow: 0 0 5px aqua, 0 0 10px white, 0 0 15px white;
 }
