@@ -95,3 +95,8 @@ h1 {
     will-change: transform;
     box-shadow: 0 0 5px aqua, 0 0 10px white, 0 0 15px white;
 }
+
+.alien {
+    position: absolute;
+    will-change: transform;
+}
