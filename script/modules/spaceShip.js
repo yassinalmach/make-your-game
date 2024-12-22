@@ -106,4 +106,16 @@ export default class SpaceShip {
             }
         }
     }
+
+    checkCollisions(bullets) {
+        for (const bullet of bullets) {
+            if (bullet.x < this.position.x + this.width - 4 && bullet.x > this.position.x &&
+                bullet.y < this.position.y + this.height && bullet.y + 12 > this.position.y - 8) {
+                bullet.element.remove();
+                bullets.delete(bullet);
+                return -1
+            }
+        }
+        return 0;
+    }
 }   

@@ -11,6 +11,7 @@ const gameLoop = () => {
         game.update();
         ship.updatePosition();
         ship.updateBullets();
+        game.lives += ship.checkCollisions(aliens.bullets);
 
         aliens.updateAliens();
         aliens.updateBullets();
