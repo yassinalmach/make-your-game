@@ -34,7 +34,7 @@ export default class Alien {
     checkCollision(bullet) {
         if (!this.isAlive) return false;
 
-        return (bullet.x < this.position.x + this.width && bullet.x + 4 > this.position.x &&
-            bullet.y < this.position.y + this.height && bullet.y + 12 > this.position.y);
+        return (bullet.x < this.position.x + this.width && bullet.x > this.position.x &&
+            bullet.y < this.position.y + this.height - 12 && bullet.y > this.position.y);
     }
 }

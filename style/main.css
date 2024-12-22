@@ -100,3 +100,13 @@ h1 {
     position: absolute;
     will-change: transform;
 }
+
+.alien-bullet {
+    position: absolute;
+    width: 4px;
+    height: 12px;
+    background-color: #ff0000;
+    border-radius: 2px;
+    will-change: transform;
+    box-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px rgb(255, 0, 0);
+}

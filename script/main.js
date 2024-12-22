@@ -12,7 +12,8 @@ const gameLoop = () => {
         ship.updatePosition();
         ship.updateBullets();
 
-        aliens.updateAliensPosition();
+        aliens.updateAliens();
+        aliens.updateBullets();
         game.score += aliens.checkCollisions(ship.bullets);
 
         if (aliens.isGameOver()) {

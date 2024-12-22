@@ -1,4 +1,4 @@
-export default class GameState {
+export default class GameState {    
     constructor() {
         this.isRunning = false;
         this.isPaused = false;
