@@ -1,8 +1,8 @@
 export default class SpaceShip {
-    constructor(gameArea) {
+    constructor(GameState) {
         // game area element
-        this.gameArea = gameArea;
-
+        this.gameArea = GameState.gameArea;
+        this.effects = GameState.effects;
         // ship data
         this.width = 70;
         this.height = 60;
@@ -10,8 +10,8 @@ export default class SpaceShip {
         this.moveDirection = 0;
 
         this.position = {
-            x: (gameArea.clientWidth - this.width) / 2,
-            y: gameArea.clientHeight - this.height - 10
+            x: (this.gameArea.clientWidth - this.width) / 2,
+            y: this.gameArea.clientHeight - this.height - 10
         };
 
         // bullet data
@@ -83,15 +83,12 @@ export default class SpaceShip {
 
     updatePosition() {
         if (this.moveDirection !== 0) {
-            this.position.x += this.moveDirection * this.moveSpeed;
-
-            if (this.position.x < 0) this.position.x = 0;
-
-            if (this.position.x > this.gameArea.clientWidth - this.width) {
-                this.position.x = this.gameArea.clientWidth - this.width;
+            const newX = this.position.x + (this.moveDirection * this.moveSpeed);
+            
+            if (newX >= 0 && newX <= this.gameArea.clientWidth - this.width) {
+                this.position.x = newX;
+                this.ship.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
             }
-
-            this.ship.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
         }
     }
 
@@ -113,9 +110,25 @@ export default class SpaceShip {
                 bullet.y < this.position.y + this.height && bullet.y + 12 > this.position.y - 8) {
                 bullet.element.remove();
                 bullets.delete(bullet);
-                return -1
+                this.effects.createPlayerHit();
+                return true
             }
         }
-        return 0;
+        return false;
+    }
+
+    reset() {
+        // Clear all bullets
+        this.bullets.forEach(bullet => {
+            bullet.element.remove();
+        });
+        this.bullets.clear();
+        
+        // Reset position
+        this.position.x = (this.gameArea.clientWidth - this.width) / 2;
+        this.updatePosition();
+        
+        // Reset movement
+        this.moveDirection = 0;
     }
 }   

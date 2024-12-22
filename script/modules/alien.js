@@ -6,6 +6,7 @@ export default class Alien {
         this.position = { x, y };
         this.isAlive = true;
         this.points = 10;
+
         this.element = this.createAlienElement();
         this.updatePosition();
     }
@@ -27,7 +28,12 @@ export default class Alien {
     destroy() {
         if (this.isAlive) {
             this.isAlive = false;
-            this.element.remove();
+            this.element.style.transition = 'opacity 0.2s ease-out';
+            this.element.style.opacity = '0';
+            
+            setTimeout(() => {
+                this.element.remove();
+            }, 150);
         }
     }
 

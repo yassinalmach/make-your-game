@@ -1,3 +1,5 @@
+import visualEffects from './visuals.js';
+
 export default class GameState {    
     constructor() {
         this.isRunning = false;
@@ -10,6 +12,7 @@ export default class GameState {
         this.FRAME_TIME = 1 / 60;
 
         this.init();
+        this.effects = new visualEffects(this.gameArea);
     }
 
     init() {
@@ -40,6 +43,16 @@ export default class GameState {
         this.gameTime = 0;
         this.isPaused = false;
         this.pauseMenuElement.style.display = 'none';
+    }
+
+    playerHit() {
+        this.lives--;
+        this.effects.createPlayerHit();
+        if (this.lives <= 0) {
+            this.effects.createGameMessage('Game Over!', false);
+            return true;
+        }
+        return false;
     }
 
     update() {

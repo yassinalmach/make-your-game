@@ -1,8 +1,9 @@
 import Alien from "./alien.js";
 
 export default class AlienGrid {
-    constructor(gameArea) {
-        this.gameArea = gameArea;
+    constructor(gameState) {
+        this.gameArea = gameState.gameArea;
+        this.effects = gameState.effects;
         this.aliens = [];
         this.direction = 1;
         this.moveSpeed = 0;
@@ -115,7 +116,7 @@ export default class AlienGrid {
 
     shoot(bottomAliens) {
         const shooter = bottomAliens[Math.floor(Math.random() * bottomAliens.length)];
-        if (shooter) {
+        if (shooter && shooter.isAlive) {
             const bullet = document.createElement('div');
             bullet.className = 'alien-bullet';
 
@@ -152,6 +153,12 @@ export default class AlienGrid {
         for (const bullet of bullets) {
             for (const alien of this.aliens) {
                 if (alien.checkCollision(bullet)) {
+                    const x_center = alien.position.x + alien.width / 2;
+                    const y_center = alien.position.y + alien.height / 2;
+
+                    this.effects.createExplosion(x_center, y_center);
+                    this.effects.createScorePopup(x_center, alien.position.y, alien.points);
+
                     alien.destroy();
                     bullet.element.remove();
                     bullets.delete(bullet);
@@ -163,7 +170,7 @@ export default class AlienGrid {
     }
 
     isGameOver() {
-        return this.aliens.filter(alien => alien.isAlive).length === 0 || this.aliens.some(alien =>
-            alien.isAlive && alien.position.y + alien.height >= this.gameArea.clientHeight - 80);
+        return this.aliens.some(alien =>
+            alien.isAlive && alien.position.y + alien.height > this.gameArea.clientHeight - 100);
     }
 }
