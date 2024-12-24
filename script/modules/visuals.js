@@ -1,6 +1,6 @@
 export default class VisualEffect {
-    constructor(gameArea) {
-        this.gameArea = gameArea;
+    constructor() {
+        this.gameArea = document.getElementById('game-area');
         this.activeEffects = new Set();
     }
 
@@ -13,19 +13,6 @@ export default class VisualEffect {
         
         setTimeout(() => {
             explosion.remove();
-        }, 300);
-    }
-
-    createScorePopup(x, y, score) {
-        const popup = document.createElement('div');
-        popup.className = 'score-popup';
-        popup.textContent = `+${score}`;
-        popup.style.transform = `translate(${x}px, ${y}px)`;
-        
-        this.gameArea.appendChild(popup);
-        
-        setTimeout(() => {
-            popup.remove();
         }, 300);
     }
 

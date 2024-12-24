@@ -28,12 +28,12 @@ export default class Alien {
     destroy() {
         if (this.isAlive) {
             this.isAlive = false;
-            this.element.style.transition = 'opacity 0.2s ease-out';
+            this.element.style.transition = 'opacity 0.1s ease-out';
             this.element.style.opacity = '0';
             
             setTimeout(() => {
                 this.element.remove();
-            }, 150);
+            }, 0.1);
         }
     }
 

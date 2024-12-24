@@ -1,14 +1,13 @@
 export default class SpaceShip {
-    constructor(GameState) {
-        // game area element
-        this.gameArea = GameState.gameArea;
-        this.effects = GameState.effects;
+    constructor(GameControls) {
+        this.gameArea = GameControls.gameArea;
+        this.effects = GameControls.effects;
+        
         // ship data
         this.width = 70;
         this.height = 60;
         this.moveSpeed = 5;
         this.moveDirection = 0;
-
         this.position = {
             x: (this.gameArea.clientWidth - this.width) / 2,
             y: this.gameArea.clientHeight - this.height - 10
@@ -21,7 +20,6 @@ export default class SpaceShip {
         this.bullets = new Set();
 
         this.createSpaceShip();
-        this.setupEvents();
         this.ship.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
     }
 
@@ -32,33 +30,6 @@ export default class SpaceShip {
         this.ship.style.height = `${this.height}px`;
         this.ship.className = 'ship';
         this.gameArea.appendChild(this.ship);
-    }
-
-    setupEvents() {
-        window.addEventListener('keydown', (e) => {
-            switch (e.code) {
-                case 'ArrowLeft':
-                    this.moveDirection = -1;
-                    break;
-                case 'ArrowRight':
-                    this.moveDirection = 1;
-                    break;
-                case 'Space':
-                    const currentTime = Date.now();
-                    if (currentTime - this.lastShot >= this.ShotCooldown) {
-                        this.shoot();
-                        this.lastShot = currentTime;
-                    }
-                    break;
-            }
-        });
-
-        window.addEventListener('keyup', (e) => {
-            if ((e.code === 'ArrowLeft' && this.moveDirection === -1) ||
-                (e.code === 'ArrowRight' && this.moveDirection === 1)) {
-                this.moveDirection = 0;
-            }
-        });
     }
 
     shoot() {
@@ -115,20 +86,5 @@ export default class SpaceShip {
             }
         }
         return false;
-    }
-
-    reset() {
-        // Clear all bullets
-        this.bullets.forEach(bullet => {
-            bullet.element.remove();
-        });
-        this.bullets.clear();
-        
-        // Reset position
-        this.position.x = (this.gameArea.clientWidth - this.width) / 2;
-        this.updatePosition();
-        
-        // Reset movement
-        this.moveDirection = 0;
     }
 }   

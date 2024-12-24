@@ -6,7 +6,7 @@ export default class AlienGrid {
         this.effects = gameState.effects;
         this.aliens = [];
         this.direction = 1;
-        this.moveSpeed = 0;
+        this.moveSpeed = 1;
         this.dropDistance = 50;
 
         this.columns = 8;
@@ -157,7 +157,6 @@ export default class AlienGrid {
                     const y_center = alien.position.y + alien.height / 2;
 
                     this.effects.createExplosion(x_center, y_center);
-                    this.effects.createScorePopup(x_center, alien.position.y, alien.points);
 
                     alien.destroy();
                     bullet.element.remove();

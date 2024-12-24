@@ -55,6 +55,19 @@ h1 {
     transform: translateZ(0);
 }
 
+#pause-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.658);
+    display: none;
+}
+
 #pause-menu {
     position: absolute;
     top: 50%;
@@ -114,6 +127,7 @@ h1 {
 }
 
 /* Visual Effects */
+/* explosion of aliens */
 .explosion {
     position: absolute;
     width: 50px;
@@ -121,7 +135,7 @@ h1 {
     transform-origin: center;
     background: radial-gradient(circle, 
         rgba(255,255,255,1) 0%, 
-        rgba(255,165,0,0.8) 50%, 
+        rgba(126, 126, 126, 0.8) 50%, 
         rgba(255,0,0,0) 100%);
     animation: explode 0.3s ease-out forwards;
     will-change: transform, opacity;
@@ -139,6 +153,7 @@ h1 {
     }
 }
 
+/* spaceShip hits with an alien's bullet */
 .player-hit {
     position: absolute;
     top: 0;
@@ -155,29 +170,7 @@ h1 {
     100% { opacity: 0; }
 }
 
-.score-popup {
-    position: absolute;
-    color: #fff;
-    font-size: 20px;
-    font-weight: bold;
-    text-shadow: 0 0 5px #00ff00;
-    animation: floatUp 0.5s ease-out forwards;
-    will-change: transform, opacity;
-    pointer-events: none;
-    z-index: 100;
-}
-
-@keyframes floatUp {
-    0% {
-        transform: translate(var(--x), var(--y));
-        opacity: 1;
-    }
-    100% {
-        transform: translate(var(--x), calc(var(--y) - 30px));
-        opacity: 0;
-    }
-}
-
+/* game over message */
 .message-container {
     position: absolute;
     top: 0;

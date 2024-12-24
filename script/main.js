@@ -1,30 +1,67 @@
-import GameState from "./modules/gameState.js";
+import GameControls from "./modules/gameControls.js";
 import SpaceShip from './modules/spaceShip.js';
 import AlienGrid from "./modules/alienGrid.js";
+import VisualEffect from "./modules/visuals.js";
 
-let game = new GameState();
+// init all objects
+let effects = new VisualEffect();
+let game = new GameControls(effects);
 let ship = new SpaceShip(game);
 let aliens = new AlienGrid(game)
 
-const resetGame = () => {
+// init events
+const setupEvents = () => {
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') game.pause() });
+    document.getElementById('continue').addEventListener('click', () => game.pause());
+    document.getElementById('restart').addEventListener('click', () => resetGame(200));
+
+    window.addEventListener('keydown', (e) => {
+        switch (e.code) {
+            case 'ArrowLeft':
+                ship.moveDirection = -1;
+                break;
+            case 'ArrowRight':
+                ship.moveDirection = 1;
+                break;
+            case 'Space':
+                const currentTime = Date.now();
+                if (currentTime - ship.lastShot >= ship.ShotCooldown) {
+                    ship.shoot();
+                    ship.lastShot = currentTime;
+                }
+                break;
+        }
+    });
+
+    window.addEventListener('keyup', (e) => {
+        if ((e.code === 'ArrowLeft' && ship.moveDirection === -1) ||
+            (e.code === 'ArrowRight' && ship.moveDirection === 1)) {
+            ship.moveDirection = 0;
+        }
+    });
+}
+
+// reset the Game params
+const resetGame = (time) => {
     setTimeout(() => {
+        game.resetParams()
         game.gameArea.innerHTML = '';
-        game.restart();
-        ship.reset();
+        game = new GameControls(effects);
         ship = new SpaceShip(game);
-        aliens = new AlienGrid(game);
-    }, 2000);
+        aliens = new AlienGrid(game)
+    }, time);
 };
 
+// game loop function
 const gameLoop = () => {
     if (!game.isPaused) {
-        game.update();
+        game.updateState();
 
         ship.updatePosition();
         ship.updateBullets();
         if (ship.checkCollisions(aliens.bullets)) {
             if (game.playerHit()) {
-                resetGame();
+                resetGame(2000);
             }
         }
 
@@ -34,13 +71,14 @@ const gameLoop = () => {
 
         if (aliens.aliens.every(alien => !alien.isAlive)) {
             game.effects.createGameMessage('Victory!', true);
-            resetGame();
+            resetGame(2000);
         } else if (aliens.isGameOver()) {
             game.effects.createGameMessage('Game Over!', false);
-            resetGame();
+            resetGame(2000);
         }
     }
     requestAnimationFrame(gameLoop);
 }
 
-gameLoop()
+setupEvents();
+gameLoop();

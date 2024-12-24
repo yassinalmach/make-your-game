@@ -1,7 +1,5 @@
-import visualEffects from './visuals.js';
-
-export default class GameState {    
-    constructor() {
+export default class GameControls {    
+    constructor(visualEffects) {
         this.isRunning = false;
         this.isPaused = false;
 
@@ -12,7 +10,7 @@ export default class GameState {
         this.FRAME_TIME = 1 / 60;
 
         this.init();
-        this.effects = new visualEffects(this.gameArea);
+        this.effects = visualEffects;
     }
 
     init() {
@@ -20,29 +18,23 @@ export default class GameState {
         this.scoreElement = document.getElementById('score');
         this.timerElement = document.getElementById('timer');
         this.livesElement = document.getElementById('lives');
+        this.pauseContainerElement = document.getElementById('pause-container');
         this.pauseMenuElement = document.getElementById('pause-menu');
-
-        document.getElementById('continue').addEventListener('click', () => this.pause());
-        document.getElementById('restart').addEventListener('click', () => this.restart());
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                this.pause();
-            }
-        });
     }
 
     pause() {
         this.isPaused = !this.isPaused;
         this.pauseMenuElement.style.display = this.isPaused ? 'block' : 'none';
+        this.pauseContainerElement.style.display = this.isPaused ? 'block': 'none';
     }
 
-    restart() {
+    resetParams() {
         this.score = 0;
         this.lives = 3;
         this.gameTime = 0;
         this.isPaused = false;
         this.pauseMenuElement.style.display = 'none';
+        this.pauseContainerElement.style.display = 'none';
     }
 
     playerHit() {
@@ -55,7 +47,7 @@ export default class GameState {
         return false;
     }
 
-    update() {
+    updateState() {
         if (!this.isPaused) {
             this.gameTime += this.FRAME_TIME;
 
