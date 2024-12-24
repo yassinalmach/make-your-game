@@ -5,12 +5,14 @@ export default class VisualEffect {
     }
 
     createExplosion(x, y) {
-        const explosion = document.createElement('div');
+        const explosion = document.createElement('img');
+        explosion.src = `images/explosion.gif?${Date.now()}`;
+        explosion.alt = 'explosion';
         explosion.className = 'explosion';
         explosion.style.transform = `translate(${x}px, ${y}px)`;
-        
+    
         this.gameArea.appendChild(explosion);
-        
+    
         setTimeout(() => {
             explosion.remove();
         }, 300);
@@ -20,7 +22,7 @@ export default class VisualEffect {
         const flash = document.createElement('div');
         flash.className = 'player-hit';
         this.gameArea.appendChild(flash);
-        
+
         setTimeout(() => {
             flash.remove();
         }, 200);
@@ -29,14 +31,14 @@ export default class VisualEffect {
     createGameMessage(message, isVictory = false) {
         const messageContainer = document.createElement('div');
         messageContainer.className = 'message-container';
-        
+
         const messageElement = document.createElement('div');
         messageElement.className = `game-message ${isVictory ? 'victory' : 'defeat'}`;
         messageElement.textContent = message;
-        
+
         messageContainer.appendChild(messageElement);
         this.gameArea.appendChild(messageContainer);
-        
+
         setTimeout(() => {
             messageContainer.remove();
         }, 2000);

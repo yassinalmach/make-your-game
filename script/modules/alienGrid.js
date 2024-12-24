@@ -153,8 +153,8 @@ export default class AlienGrid {
         for (const bullet of bullets) {
             for (const alien of this.aliens) {
                 if (alien.checkCollision(bullet)) {
-                    const x_center = alien.position.x + alien.width / 2;
-                    const y_center = alien.position.y + alien.height / 2;
+                    const x_center = alien.position.x;
+                    const y_center = alien.position.y - 10;
 
                     this.effects.createExplosion(x_center, y_center);
 

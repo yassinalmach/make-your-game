@@ -1,4 +1,4 @@
-import GameControls from "./modules/gameControls.js";
+import GameControls from "./modules/gameState.js";
 import SpaceShip from './modules/spaceShip.js';
 import AlienGrid from "./modules/alienGrid.js";
 import VisualEffect from "./modules/visuals.js";
