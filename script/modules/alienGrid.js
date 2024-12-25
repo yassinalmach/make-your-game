@@ -6,7 +6,7 @@ export default class AlienGrid {
         this.effects = gameState.effects;
         this.aliens = [];
         this.direction = 1;
-        this.moveSpeed = 1;
+        this.MOVE_SPEED = 1;
         this.dropDistance = 50;
 
         this.columns = 8;
@@ -15,7 +15,7 @@ export default class AlienGrid {
         this.y_Spacing = 50;
 
         this.bullets = new Set();
-        this.bulletSpeed = 5;
+        this.BULLET_SPEED = 5;
 
         this.createAlienGrid();
     }
@@ -79,7 +79,7 @@ export default class AlienGrid {
                 if (shouldDrop) {
                     alien.position.y += this.dropDistance;
                 }
-                alien.position.x += this.moveSpeed * this.direction;
+                alien.position.x += this.MOVE_SPEED * this.direction;
                 alien.updatePosition();
             }
         });
@@ -92,10 +92,10 @@ export default class AlienGrid {
         const aliveCount = this.aliens.filter(alien => alien.isAlive).length;
         const totalAliens = this.rows * this.columns;
         const percente = aliveCount / totalAliens * 100;
-        if (percente < 20) this.moveSpeed = 4;
-        else if (percente < 40) this.moveSpeed = 3.5;
-        else if (percente < 60) this.moveSpeed = 3;
-        else if (percente < 80) this.moveSpeed = 2;
+        if (percente < 20) this.MOVE_SPEED = 4;
+        else if (percente < 40) this.MOVE_SPEED = 3.5;
+        else if (percente < 60) this.MOVE_SPEED = 3;
+        else if (percente < 80) this.MOVE_SPEED = 2;
     }
 
     getBottomAliens(startGrid) {
@@ -130,7 +130,7 @@ export default class AlienGrid {
                 element: bullet,
                 x: bulletX,
                 y: bulletY,
-                speed: this.bulletSpeed
+                speed: this.BULLET_SPEED
             };
 
             this.bullets.add(bulletData);

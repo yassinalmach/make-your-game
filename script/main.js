@@ -1,11 +1,11 @@
-import GameControls from "./modules/gameState.js";
+import GameState from "./modules/gameState.js";
 import SpaceShip from './modules/spaceShip.js';
 import AlienGrid from "./modules/alienGrid.js";
 import VisualEffect from "./modules/visuals.js";
 
 // init all objects
 let effects = new VisualEffect();
-let game = new GameControls(effects);
+let game = new GameState(effects);
 let ship = new SpaceShip(game);
 let aliens = new AlienGrid(game)
 
@@ -25,7 +25,7 @@ const setupEvents = () => {
                 break;
             case 'Space':
                 const currentTime = Date.now();
-                if (currentTime - ship.lastShot >= ship.ShotCooldown) {
+                if (currentTime - ship.lastShot >= ship.COOLDOWN) {
                     ship.shoot();
                     ship.lastShot = currentTime;
                 }
@@ -44,9 +44,8 @@ const setupEvents = () => {
 // reset the Game params
 const resetGame = (time) => {
     setTimeout(() => {
-        game.resetParams()
         game.gameArea.innerHTML = '';
-        game = new GameControls(effects);
+        game = new GameState(effects);
         ship = new SpaceShip(game);
         aliens = new AlienGrid(game)
     }, time);
@@ -60,7 +59,11 @@ const gameLoop = () => {
         ship.updatePosition();
         ship.updateBullets();
         if (ship.checkCollisions(aliens.bullets)) {
-            if (game.playerHit()) {
+            game.lives--;
+            effects.createPlayerHit();
+            if (game.lives <= 0) {
+                effects.createGameMessage('you are defeated!', false);
+                game.isPaused = true
                 resetGame(2000);
             }
         }
@@ -70,10 +73,12 @@ const gameLoop = () => {
         game.score += aliens.checkCollisions(ship.bullets);
 
         if (aliens.aliens.every(alien => !alien.isAlive)) {
+            game.isPaused = true;
             game.effects.createGameMessage('Victory!', true);
             resetGame(2000);
         } else if (aliens.isGameOver()) {
-            game.effects.createGameMessage('Game Over!', false);
+            game.isPaused = true;
+            game.effects.createGameMessage('you are defeated!', false);
             resetGame(2000);
         }
     }

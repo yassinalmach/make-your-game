@@ -1,12 +1,12 @@
 export default class SpaceShip {
-    constructor(GameControls) {
-        this.gameArea = GameControls.gameArea;
-        this.effects = GameControls.effects;
-        
+    constructor(GameState) {
+        this.gameArea = GameState.gameArea;
+        this.effects = GameState.effects;
+
         // ship data
-        this.width = 70;
-        this.height = 60;
-        this.moveSpeed = 5;
+        this.width = 66;
+        this.height = 50;
+        this.MOVE_SPEED = 6;
         this.moveDirection = 0;
         this.position = {
             x: (this.gameArea.clientWidth - this.width) / 2,
@@ -14,15 +14,15 @@ export default class SpaceShip {
         };
 
         // bullet data
+        this.BULLET_SPEED = 10;
+        this.COOLDOWN = 300;
         this.lastShot = 0;
-        this.ShotCooldown = 500;
-        this.bulletSpeed = 7;
         this.bullets = new Set();
 
         this.createSpaceShip();
         this.ship.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
     }
-
+C
     createSpaceShip() {
         this.ship = document.createElement('img');
         this.ship.src = "images/ship.png";
@@ -46,7 +46,7 @@ export default class SpaceShip {
             element: bullet,
             x: bulletX,
             y: bulletY,
-            speed: this.bulletSpeed
+            speed: this.BULLET_SPEED
         };
 
         this.bullets.add(bulletData);
@@ -54,7 +54,7 @@ export default class SpaceShip {
 
     updatePosition() {
         if (this.moveDirection !== 0) {
-            const newX = this.position.x + (this.moveDirection * this.moveSpeed);
+            const newX = this.position.x + (this.moveDirection * this.MOVE_SPEED);
             
             if (newX >= 0 && newX <= this.gameArea.clientWidth - this.width) {
                 this.position.x = newX;
@@ -68,7 +68,7 @@ export default class SpaceShip {
             bullet.y -= bullet.speed;
             bullet.element.style.transform = `translate(${bullet.x}px, ${bullet.y}px)`;
 
-            if (bullet.y < -10) {
+            if (bullet.y < -12) {
                 bullet.element.remove();
                 this.bullets.delete(bullet);
             }
@@ -77,11 +77,10 @@ export default class SpaceShip {
 
     checkCollisions(bullets) {
         for (const bullet of bullets) {
-            if (bullet.x < this.position.x + this.width - 4 && bullet.x > this.position.x &&
-                bullet.y < this.position.y + this.height && bullet.y + 12 > this.position.y - 8) {
+            if (bullet.x < this.position.x + this.width && bullet.x + 4 > this.position.x &&
+                bullet.y < this.position.y + this.height && bullet.y + 12 > this.position.y) {
                 bullet.element.remove();
                 bullets.delete(bullet);
-                this.effects.createPlayerHit();
                 return true
             }
         }

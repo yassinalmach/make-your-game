@@ -1,6 +1,6 @@
-export default class GameControls {    
+export default class GameState {
     constructor(visualEffects) {
-        this.isRunning = false;
+        this.effects = visualEffects;
         this.isPaused = false;
 
         this.score = 0;
@@ -10,7 +10,8 @@ export default class GameControls {
         this.FRAME_TIME = 1 / 60;
 
         this.init();
-        this.effects = visualEffects;
+        this.pauseMenu.style.display = 'none';
+        this.pauseContainer.style.display = 'none';
     }
 
     init() {
@@ -18,33 +19,14 @@ export default class GameControls {
         this.scoreElement = document.getElementById('score');
         this.timerElement = document.getElementById('timer');
         this.livesElement = document.getElementById('lives');
-        this.pauseContainerElement = document.getElementById('pause-container');
-        this.pauseMenuElement = document.getElementById('pause-menu');
+        this.pauseContainer = document.getElementById('pause-container');
+        this.pauseMenu = document.getElementById('pause-menu');
     }
 
     pause() {
         this.isPaused = !this.isPaused;
-        this.pauseMenuElement.style.display = this.isPaused ? 'block' : 'none';
-        this.pauseContainerElement.style.display = this.isPaused ? 'block': 'none';
-    }
-
-    resetParams() {
-        this.score = 0;
-        this.lives = 3;
-        this.gameTime = 0;
-        this.isPaused = false;
-        this.pauseMenuElement.style.display = 'none';
-        this.pauseContainerElement.style.display = 'none';
-    }
-
-    playerHit() {
-        this.lives--;
-        this.effects.createPlayerHit();
-        if (this.lives <= 0) {
-            this.effects.createGameMessage('Game Over!', false);
-            return true;
-        }
-        return false;
+        this.pauseMenu.style.display = this.isPaused ? 'block' : 'none';
+        this.pauseContainer.style.display = this.isPaused ? 'block' : 'none';
     }
 
     updateState() {

@@ -1,7 +1,6 @@
 export default class VisualEffect {
     constructor() {
         this.gameArea = document.getElementById('game-area');
-        this.activeEffects = new Set();
     }
 
     createExplosion(x, y) {
@@ -10,9 +9,9 @@ export default class VisualEffect {
         explosion.alt = 'explosion';
         explosion.className = 'explosion';
         explosion.style.transform = `translate(${x}px, ${y}px)`;
-    
+
         this.gameArea.appendChild(explosion);
-    
+
         setTimeout(() => {
             explosion.remove();
         }, 300);
@@ -25,7 +24,7 @@ export default class VisualEffect {
 
         setTimeout(() => {
             flash.remove();
-        }, 200);
+        }, 300);
     }
 
     createGameMessage(message, isVictory = false) {
