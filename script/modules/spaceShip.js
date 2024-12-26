@@ -22,7 +22,7 @@ export default class SpaceShip {
         this.createSpaceShip();
         this.ship.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
     }
-C
+
     createSpaceShip() {
         this.ship = document.createElement('img');
         this.ship.src = "images/ship.png";
@@ -55,7 +55,7 @@ C
     updatePosition() {
         if (this.moveDirection !== 0) {
             const newX = this.position.x + (this.moveDirection * this.MOVE_SPEED);
-            
+
             if (newX >= 0 && newX <= this.gameArea.clientWidth - this.width) {
                 this.position.x = newX;
                 this.ship.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
@@ -75,7 +75,7 @@ C
         }
     }
 
-    checkCollisions(bullets) {
+    isPlayerHits(bullets) {
         for (const bullet of bullets) {
             if (bullet.x < this.position.x + this.width && bullet.x + 4 > this.position.x &&
                 bullet.y < this.position.y + this.height && bullet.y + 12 > this.position.y) {

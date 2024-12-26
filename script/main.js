@@ -7,7 +7,7 @@ import VisualEffect from "./modules/visuals.js";
 let effects = new VisualEffect();
 let game = new GameState(effects);
 let ship = new SpaceShip(game);
-let aliens = new AlienGrid(game)
+let aliens = new AlienGrid(game, effects)
 
 // init events
 const setupEvents = () => {
@@ -47,7 +47,7 @@ const resetGame = (time) => {
         game.gameArea.innerHTML = '';
         game = new GameState(effects);
         ship = new SpaceShip(game);
-        aliens = new AlienGrid(game)
+        aliens = new AlienGrid(game, effects)
     }, time);
 };
 
@@ -58,7 +58,7 @@ const gameLoop = () => {
 
         ship.updatePosition();
         ship.updateBullets();
-        if (ship.checkCollisions(aliens.bullets)) {
+        if (ship.isPlayerHits(aliens.bullets)) {
             game.lives--;
             effects.createPlayerHit();
             if (game.lives <= 0) {
@@ -68,15 +68,15 @@ const gameLoop = () => {
             }
         }
 
-        aliens.updateAliens();
+        aliens.updateGridPosition();
         aliens.updateBullets();
-        game.score += aliens.checkCollisions(ship.bullets);
+        game.score += aliens.isAlienDestroyed(ship.bullets);
 
-        if (aliens.aliens.every(alien => !alien.isAlive)) {
+        if (aliens.isAllAliensDestroyed()) {
             game.isPaused = true;
             game.effects.createGameMessage('Victory!', true);
             resetGame(2000);
-        } else if (aliens.isGameOver()) {
+        } else if (aliens.isPlayerDestroyed()) {
             game.isPaused = true;
             game.effects.createGameMessage('you are defeated!', false);
             resetGame(2000);

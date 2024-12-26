@@ -68,6 +68,11 @@ h1 {
     display: none;
 }
 
+#pause-menu h1 {
+    font-size: 90px;
+}
+
+
 #pause-menu {
     position: absolute;
     top: 50%;
@@ -80,6 +85,8 @@ h1 {
 
 .menu-button {
     display: block;
+    font-size: 30px;
+    width: 250px;
     margin: 10px auto;
     padding: 10px 10px;
     background-color: #ffffff57;
@@ -87,7 +94,6 @@ h1 {
     border: none;
     cursor: pointer;
     font-family: 'Courier New', monospace;
-    width: 150px;
 }
 
 .menu-button:hover {
@@ -97,7 +103,7 @@ h1 {
 .ship {
     position: absolute;
     will-change: transform;
-    transition: 'transform 0.1s ease-out';
+    transition: transform 0.1s ease-out;
 }
 
 .bullet {

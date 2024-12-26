@@ -1,8 +1,8 @@
 export default class Alien {
     constructor(x, y, gameArea) {
         this.gameArea = gameArea;
-        this.width = 50;
-        this.height = 50;
+        this.width = 60;
+        this.height = 40;
         this.position = { x, y };
         this.isAlive = true;
         this.points = 10;
@@ -15,6 +15,7 @@ export default class Alien {
         const alien = document.createElement('img');
         alien.className = 'alien';
         alien.src = 'images/alien.png';
+        alien.alt = 'chirir'
         alien.style.width = `${this.width}px`;
         alien.style.height = `${this.height}px`;
         this.gameArea.appendChild(alien);
@@ -30,7 +31,7 @@ export default class Alien {
             this.isAlive = false;
             this.element.style.transition = 'opacity 0.1s ease-out';
             this.element.style.opacity = '0';
-            
+
             setTimeout(() => {
                 this.element.remove();
             }, 0.1);
@@ -41,6 +42,6 @@ export default class Alien {
         if (!this.isAlive) return false;
 
         return (bullet.x < this.position.x + this.width && bullet.x > this.position.x &&
-            bullet.y < this.position.y + this.height - 12 && bullet.y > this.position.y);
+            bullet.y < this.position.y + this.height && bullet.y > this.position.y);
     }
 }

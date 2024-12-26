@@ -1,21 +1,21 @@
 import Alien from "./alien.js";
 
 export default class AlienGrid {
-    constructor(gameState) {
+    constructor(gameState, visualEffect) {
         this.gameArea = gameState.gameArea;
-        this.effects = gameState.effects;
+        this.effects = visualEffect;
         this.aliens = [];
         this.direction = 1;
         this.MOVE_SPEED = 1;
-        this.dropDistance = 50;
+        this.dropDistance = 40;
 
         this.columns = 8;
         this.rows = 4;
-        this.x_Spacing = 60;
+        this.x_Spacing = 65;
         this.y_Spacing = 50;
 
         this.bullets = new Set();
-        this.BULLET_SPEED = 5;
+        this.BULLET_SPEED = 4;
 
         this.createAlienGrid();
     }
@@ -35,7 +35,7 @@ export default class AlienGrid {
         }
     }
 
-    updateAliens() {
+    updateGridPosition() {
         const edge = this.getGridEdges()
         this.moveGrid(edge);
 
@@ -89,10 +89,11 @@ export default class AlienGrid {
     }
 
     updateDifficulty() {
-        const aliveCount = this.aliens.filter(alien => alien.isAlive).length;
+        const totalAlive = this.aliens.filter(alien => alien.isAlive).length;
         const totalAliens = this.rows * this.columns;
-        const percente = aliveCount / totalAliens * 100;
-        if (percente < 20) this.MOVE_SPEED = 4;
+        const percente = totalAlive * 100 / totalAliens;
+        if (percente < 10) this.MOVE_SPEED = 5
+        else if (percente < 20) this.MOVE_SPEED = 4;
         else if (percente < 40) this.MOVE_SPEED = 3.5;
         else if (percente < 60) this.MOVE_SPEED = 3;
         else if (percente < 80) this.MOVE_SPEED = 2;
@@ -121,7 +122,7 @@ export default class AlienGrid {
             bullet.className = 'alien-bullet';
 
             const bulletX = shooter.position.x + (shooter.width / 2) - 2;
-            const bulletY = shooter.position.y + this.y_Spacing - 12;
+            const bulletY = shooter.position.y + shooter.height;
 
             bullet.style.transform = `translate(${bulletX}px, ${bulletY}px)`;
             this.gameArea.appendChild(bullet);
@@ -149,12 +150,12 @@ export default class AlienGrid {
         }
     }
 
-    checkCollisions(bullets) {
+    isAlienDestroyed(bullets) {
         for (const bullet of bullets) {
             for (const alien of this.aliens) {
                 if (alien.checkCollision(bullet)) {
-                    const x_center = alien.position.x;
-                    const y_center = alien.position.y - 10;
+                    const x_center = alien.position.x + 5;
+                    const y_center = alien.position.y - 5;
 
                     this.effects.createExplosion(x_center, y_center);
 
@@ -168,8 +169,12 @@ export default class AlienGrid {
         return 0;
     }
 
-    isGameOver() {
+    isPlayerDestroyed() {
         return this.aliens.some(alien =>
-            alien.isAlive && alien.position.y + alien.height > this.gameArea.clientHeight - 100);
+            alien.isAlive && alien.position.y + alien.height > this.gameArea.clientHeight - 60);
+    }
+
+    isAllAliensDestroyed() {
+        return this.aliens.every(alien => !alien.isAlive)
     }
 }
