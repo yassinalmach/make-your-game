@@ -69,9 +69,8 @@ h1 {
 }
 
 #pause-menu h1 {
-    font-size: 90px;
+    font-size: 50px;
 }
-
 
 #pause-menu {
     position: absolute;
@@ -85,8 +84,8 @@ h1 {
 
 .menu-button {
     display: block;
-    font-size: 30px;
-    width: 250px;
+    font-size: 20px;
+    width: 200px;
     margin: 10px auto;
     padding: 10px 10px;
     background-color: #ffffff57;
@@ -235,7 +234,9 @@ h1 {
         font-size: 0.7rem;
         z-index: 10;
     }
-    #game-container {}
+    #game-container {
+        height: 75%;
+    }
 
     h1 {
         font-size: 20px;
