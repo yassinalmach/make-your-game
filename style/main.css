@@ -153,16 +153,6 @@ h1 {
     pointer-events: none;
 }
 
-@keyframes flash {
-    0% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
-}
-
 /* game over message */
 .message-container {
     position: absolute;
@@ -185,6 +175,17 @@ h1 {
     animation: fadeInOut 2s ease-in-out forwards;
     will-change: opacity;
     pointer-events: none;
+}
+
+/* keyframes */
+@keyframes flash {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 @keyframes fadeInOut {
@@ -213,4 +214,41 @@ h1 {
 .defeat {
     color: #ff0000;
     text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+/* responsive styles */
+@media (max-width: 805px) {
+    #game-container {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 30px;
+        margin: 5px 0;
+    }
+}
+
+@media (max-width: 425px) {
+    #game-stats {
+        height: 50px;
+        padding: 10px;
+        font-size: 0.7rem;
+        z-index: 10;
+    }
+    #game-container {}
+
+    h1 {
+        font-size: 20px;
+        margin: 5px 0;
+    }
+
+    .bullet {
+        width: 2.5px;
+        height: 8px;
+    }
+
+    .alien-bullet {
+        width: 2.5px;
+        height: 8px;
+    }
 }

@@ -1,8 +1,8 @@
 export default class Alien {
     constructor(x, y, gameArea) {
         this.gameArea = gameArea;
-        this.width = 60;
-        this.height = 40;
+        this.width = gameArea.offsetWidth / 14; // default it was 60
+        this.height = (gameArea.offsetWidth / 14) * .7; // default it was 40
         this.position = { x, y };
         this.isAlive = true;
         this.points = 10;

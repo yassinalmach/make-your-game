@@ -34,7 +34,7 @@ export default class GameState {
             this.gameTime += this.FRAME_TIME;
 
             this.scoreElement.textContent = `Score: ${this.score}`;
-            this.timerElement.textContent = `Time: ${this.formatTime(this.gameTime)}`;
+            this.timerElement.textContent = `${this.formatTime(this.gameTime)}`;
             this.livesElement.textContent = `Lives: ${this.lives}`;
         }
     }

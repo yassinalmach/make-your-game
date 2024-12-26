@@ -11,8 +11,8 @@ export default class AlienGrid {
 
         this.columns = 8;
         this.rows = 4;
-        this.x_Spacing = 65;
-        this.y_Spacing = 50;
+        this.x_Spacing = this.gameArea.offsetWidth / 13; // default it was 60
+        this.y_Spacing = this.gameArea.offsetWidth / 16; // default it was 50
 
         this.bullets = new Set();
         this.BULLET_SPEED = 4;
@@ -154,8 +154,8 @@ export default class AlienGrid {
         for (const bullet of bullets) {
             for (const alien of this.aliens) {
                 if (alien.checkCollision(bullet)) {
-                    const x_center = alien.position.x + 5;
-                    const y_center = alien.position.y - 5;
+                    const x_center = alien.position.x;
+                    const y_center = alien.position.y - 20;
 
                     this.effects.createExplosion(x_center, y_center);
 
