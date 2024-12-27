@@ -29,6 +29,7 @@ h1 {
     height: 800px;
     border: 2px solid #5a5a5ab2;
     border-radius: 10px;
+    overflow: hidden;
     transform: translateZ(0);
 }
 
@@ -55,7 +56,8 @@ h1 {
     transform: translateZ(0);
 }
 
-#pause-container {
+#pause-container,
+#start-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -66,6 +68,39 @@ h1 {
     align-items: center;
     background-color: rgba(0, 0, 0, 0.658);
     display: none;
+}
+
+#start-container {
+    display: flex;
+}
+
+#start-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    gap: 10px;
+}
+
+.start-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    height: fit-content;
+    text-wrap: wrap;
+    font-family: 'Courier New', monospace;
+}
+
+#start-menu img {
+    width: 70px;
+    padding: 5px 20px;
+    background-color: #ffffff57;
+    color: #ffffff;
+    border-radius: 10px;
+}
+
+#start {
+    margin-top: 60px;
 }
 
 #pause-menu h1 {
@@ -227,6 +262,23 @@ h1 {
     }
 }
 
+@media (max-width: 575px) {
+    #start-menu {
+        gap: 15px;
+        width: 90%;
+    }
+
+    .start-icons {
+        text-align: center;
+        text-align: left;
+    }
+
+    #start-menu img {
+        width: 50px;
+        padding: 5px 10px;
+    }
+}
+
 @media (max-width: 425px) {
     #game-stats {
         height: 50px;
@@ -234,13 +286,14 @@ h1 {
         font-size: 0.7rem;
         z-index: 10;
     }
+
     #game-container {
         height: 75%;
     }
 
     h1 {
-        font-size: 20px;
-        margin: 5px 0;
+        font-size: 25px;
+        margin-bottom: 20px;
     }
 
     .bullet {

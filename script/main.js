@@ -85,5 +85,10 @@ const gameLoop = () => {
     requestAnimationFrame(gameLoop);
 }
 
-setupEvents();
-gameLoop();
+// Start the game
+document.getElementById('start').addEventListener('click', () => {
+    const startContainer = document.getElementById('start-container')
+    startContainer.style.display = 'none';
+    setupEvents();
+    gameLoop();
+});

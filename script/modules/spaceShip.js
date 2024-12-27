@@ -12,7 +12,7 @@ export default class SpaceShip {
         this.position = {
             x: (this.gameArea.clientWidth - this.width) / 2,
             y: this.gameArea.clientHeight - this.height - 10
-        }; 
+        };
 
         // bullet data
         this.BULLET_SPEED = 10;
@@ -78,8 +78,11 @@ export default class SpaceShip {
 
     isPlayerHits(bullets) {
         for (const bullet of bullets) {
-            if (bullet.x < this.position.x + this.width && bullet.x + 4 > this.position.x &&
-                bullet.y < this.position.y + this.height && bullet.y + 12 > this.position.y) {
+            if (bullet.x < this.position.x + this.width &&
+                bullet.x + 4 > this.position.x && // 4px is the width of the bullet
+                bullet.y < this.position.y + this.height &&
+                bullet.y + 12 > this.position.y) { // 12px is the height of the bullet
+
                 bullet.element.remove();
                 bullets.delete(bullet);
                 return true
