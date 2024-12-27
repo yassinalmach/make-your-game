@@ -4,8 +4,8 @@ export default class SpaceShip {
         this.effects = GameState.effects;
 
         // ship data
-        this.width = this.gameArea.offsetWidth / 10; // default it was 66
-        this.height = this.gameArea.offsetWidth / 14; // default it was 50
+        this.width = this.gameArea.offsetWidth / 11; // default it was 66
+        this.height = this.gameArea.offsetWidth / 15; // default it was 50
 
         this.MOVE_SPEED = 6;
         this.moveDirection = 0;
