@@ -92,3 +92,12 @@ document.getElementById('start').addEventListener('click', () => {
     setupEvents();
     gameLoop();
 });
+
+// restarts the game in case of resizing the page width
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout); // Clear the previous timeout
+    resizeTimeout = setTimeout(() => {
+        resetGame()
+    }, 500);
+});
