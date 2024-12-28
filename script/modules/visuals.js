@@ -4,6 +4,8 @@ export default class VisualEffect {
     }
 
     createExplosion(x, y) {
+        var audio = new Audio('/sounds/alien-explosion.mp3');
+        audio.play();
         const explosion = document.createElement('img');
         explosion.src = `images/explosion.gif?${Date.now()}`;
         explosion.alt = 'explosion';
@@ -18,6 +20,8 @@ export default class VisualEffect {
     }
 
     createPlayerHit() {
+        var audio = new Audio('/sounds/player-hit.mp3');
+        audio.play();
         const flash = document.createElement('div');
         flash.className = 'player-hit';
         this.gameArea.appendChild(flash);
@@ -32,7 +36,15 @@ export default class VisualEffect {
         messageContainer.className = 'message-container';
 
         const messageElement = document.createElement('div');
-        messageElement.className = `game-message ${isVictory ? 'victory' : 'defeat'}`;
+        if (isVictory) {
+            var audio = new Audio('/sounds/victory.mp3');
+            audio.play();
+            messageElement.className = `game-message victory`;
+        } else {
+            var audio = new Audio('/sounds/defeat.mp3');
+            audio.play();
+            messageElement.className = `game-message defeat`;
+        }
         messageElement.textContent = message;
 
         messageContainer.appendChild(messageElement);

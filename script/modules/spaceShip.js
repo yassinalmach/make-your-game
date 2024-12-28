@@ -34,6 +34,8 @@ export default class SpaceShip {
     }
 
     shoot() {
+        var audio = new Audio('/sounds/spaceship-shoot.mp3');
+        audio.play();
         const bullet = document.createElement('div');
         bullet.className = 'bullet';
 

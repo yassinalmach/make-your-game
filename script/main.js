@@ -62,6 +62,8 @@ const gameLoop = () => {
             game.lives--;
             effects.createPlayerHit();
             if (game.lives <= 0) {
+                var audio = new Audio('/sounds/defeat.mp3');
+                audio.play();
                 effects.createGameMessage('you are defeated!', false);
                 game.isPaused = true
                 resetGame(2000);
