@@ -1,0 +1,28 @@
+story mode Objectives:
+You must follow the same principles as the first subject and codebase of make-your-game.
+
+For this project you must create a story mode, a mode in a computer game in which the player plays through a story.
+Take for instance Super Mario where a story is being told in which the main character tries to save the princess.
+
+Instructions:
+A story must have some kind of logic and evolution, you must not simply write something on a board and it is done, no!
+
+The story must have at least:
+an introduction, the context and beginning of the story (should be shown before starting the game)
+a development, the story reaches a waypoint (should be shown when you hit a specific score while playing)
+a conclusion, the end of the story (should be shown when the game ends, either with a loss or a victory)
+
+audit:
+Does the game avoid the use of frameworks?
+Is an introduction of the story provided in the beginning of the game?
+Try playing the game and reach the specific score to make the development part of the story appear.
+Does the development part of the story appear when you reach the specific score?
+Try finishing the game (either win or lose).
+Is a conclusion of the story provided when the game ends?
+Does the game run at/or around 60fps?(from 50 to 60 or more)
+Can you confirm that the paint is being used as little as possible?
+Can you confirm that the layers are being used as little as possible?
+Is layer creation being promoted properly?
+Bonus:
++Is the story appealing and interesting?
++Is the code using asynchronicity to increase performance?
