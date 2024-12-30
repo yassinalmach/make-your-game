@@ -2,10 +2,13 @@ import GameState from "./modules/gameState.js";
 import SpaceShip from './modules/spaceShip.js';
 import AlienGrid from "./modules/alienGrid.js";
 import VisualEffect from "./modules/visuals.js";
+import StoryMode from './modules/storyMode.js';
+
 
 // init all objects
 let effects = new VisualEffect();
 let game = new GameState(effects);
+let storyMode = new StoryMode(game);
 let ship = new SpaceShip(game);
 let aliens = new AlienGrid(game, effects)
 
@@ -47,14 +50,17 @@ const resetGame = (time) => {
         game.gameArea.innerHTML = '';
         game = new GameState(effects);
         ship = new SpaceShip(game);
+        storyMode = new StoryMode(game);
         aliens = new AlienGrid(game, effects)
+        storyMode.showIntro()
     }, time);
 };
 
 // game loop function
-const gameLoop = () => {
+const gameLoop = async () => {
     if (!game.isPaused) {
         game.updateState();
+        storyMode.checkProgress();
 
         ship.updatePosition();
         ship.updateBullets();
@@ -62,10 +68,9 @@ const gameLoop = () => {
             game.lives--;
             effects.createPlayerHit();
             if (game.lives <= 0) {
-                var audio = new Audio('/sounds/defeat.mp3');
-                audio.play();
+                game.isPaused = true;
+                await storyMode.showEnding(false)
                 effects.createGameMessage('you are defeated!', false);
-                game.isPaused = true
                 resetGame(2000);
             }
         }
@@ -76,10 +81,12 @@ const gameLoop = () => {
 
         if (aliens.isAllAliensDestroyed()) {
             game.isPaused = true;
+            await storyMode.showEnding(true)
             game.effects.createGameMessage('Victory!', true);
             resetGame(2000);
         } else if (aliens.isPlayerDestroyed()) {
             game.isPaused = true;
+            await storyMode.showEnding(false)
             game.effects.createGameMessage('you are defeated!', false);
             resetGame(2000);
         }
@@ -88,10 +95,11 @@ const gameLoop = () => {
 }
 
 // Start the game
-document.getElementById('start').addEventListener('click', () => {
+document.getElementById('start').addEventListener('click', async () => {
     const startContainer = document.getElementById('start-container')
     startContainer.style.display = 'none';
     setupEvents();
+    await storyMode.showIntro()
     gameLoop();
 });
 

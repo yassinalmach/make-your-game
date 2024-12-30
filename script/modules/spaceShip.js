@@ -1,5 +1,6 @@
 export default class SpaceShip {
     constructor(GameState) {
+        this.game = GameState;
         this.gameArea = GameState.gameArea;
         this.effects = GameState.effects;
 
@@ -34,6 +35,7 @@ export default class SpaceShip {
     }
 
     shoot() {
+        if (this.game.isPaused === true) return
         var audio = new Audio('/sounds/spaceship-shoot.mp3');
         audio.play();
         const bullet = document.createElement('div');
