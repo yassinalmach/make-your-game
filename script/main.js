@@ -14,7 +14,10 @@ let aliens = new AlienGrid(game, effects)
 
 // init events
 const setupEvents = () => {
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') game.pause() });
+    document.addEventListener('keydown', (e) => {
+        if (storyMode.viewStory === true) return
+        if (e.key === 'Escape') game.pause()
+    });
     document.getElementById('continue').addEventListener('click', () => game.pause());
     document.getElementById('restart').addEventListener('click', () => resetGame(200));
 
@@ -98,8 +101,8 @@ const gameLoop = async () => {
 document.getElementById('start').addEventListener('click', async () => {
     const startContainer = document.getElementById('start-container')
     startContainer.style.display = 'none';
-    setupEvents();
     await storyMode.showIntro()
+    setupEvents();
     gameLoop();
 });
 
@@ -108,6 +111,8 @@ let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout); // Clear the previous timeout
     resizeTimeout = setTimeout(() => {
+        const startContainer = document.getElementById('start-container')
+        startContainer.style.display = 'none';
         resetGame()
     }, 500);
 });

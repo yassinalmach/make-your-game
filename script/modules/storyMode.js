@@ -4,22 +4,23 @@ export default class StoryMode {
         this.storyPhase = {
             intro: {
                 title: "Earth's Last Hope",
-                content: "Alien forces have breached our solar system's defenses. As Earth's most skilled pilot, you must defend humanity from the incoming invasion. Our experimental laser cannon is our only hope."
+                content: "Strange spaceships have appeared in the sky. These mysterious visitors showed no interest in communication - only destruction. All our other defenses have failed. But we have one last chance: a special ship with powerful lasers. You are our best pilot, and we need your help. You must stop these aliens before they reach Earth. Are you ready to protect our home?"
             },
             development: {
                 score: 180,
-                title: "The Tide Turns",
-                content: "Your successful defense has revealed a weakness in their formation! Keep pushing forward - their mothership must be nearby."
+                title: "The Secret Mission",
+                content: "Look! Your plan is working! The aliens are starting to back away. But wait - we've learned something new. They're not just attacking randomly. They're looking for something special near Earth. We can't let them find it. Keep fighting! You're doing great!"
             },
             victory: {
-                title: "Victory!",
-                content: "You've done it! The alien fleet is in retreat. Earth is safe thanks to your bravery."
+                title: "You are the hero of earth!",
+                content: "You did it! The aliens are running away! We won! Something amazing happened - we found out they were looking for a secret object hidden on our moon. Nobody knew it was there before. Thanks to you, Earth is safe, and we learned we're not alone in space. You're a hero!"
             },
             defeat: {
-                title: "Defeat",
-                content: "The alien forces were too strong. Earth's last defense has fallen."
+                title: "Earth Falls Dark",
+                content: "Oh no! There were too many alien ships. They found what they were looking for on the moon and took it away. Earth is damaged but still here. We'll grow stronger and be ready if they come back. Thank you for trying your best to protect us."
             }
         };
+        this.viewStory = false
     }
 
     showStoryDialog(phase) {
@@ -43,7 +44,9 @@ export default class StoryMode {
 
     async showIntro() {
         this.game.isPaused = true;
+        this.viewStory = true
         await this.showStoryDialog('intro');
+        this.viewStory = false
         this.game.isPaused = false;
     }
 
@@ -51,13 +54,17 @@ export default class StoryMode {
         if (this.game.score >= this.storyPhase.development.score && !this.developmentShown) {
             this.developmentShown = true;
             this.game.isPaused = true;
+            this.viewStory = true
             await this.showStoryDialog('development');
+            this.viewStory = false
             this.game.isPaused = false;
         }
     }
 
     async showEnding(victory) {
         this.game.isPaused = true;
+        this.viewStory = true
         await this.showStoryDialog(victory ? 'victory' : 'defeat');
+        this.viewStory = false
     }
 }
