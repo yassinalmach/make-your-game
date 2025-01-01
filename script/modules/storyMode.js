@@ -31,40 +31,38 @@ export default class StoryMode {
             <p>${this.storyPhase[phase].content}</p>
             <button class="menu-button">${phase === 'intro' ? 'Start Mission' : 'Continue'}</button>
         `
-
         this.game.gameArea.appendChild(container);
+        return container
+    };
 
-        return new Promise(resolve => {
-            container.querySelector('button').onclick = () => {
-                container.remove();
-                resolve();
-            };
-        });
-    }
-
-    async showIntro() {
+    showIntro() {
         this.game.isPaused = true;
-        this.viewStory = true
-        await this.showStoryDialog('intro');
-        this.viewStory = false
-        this.game.isPaused = false;
+        this.viewStory = true;
+        let element = this.showStoryDialog('intro');
+        element.querySelector('button').onclick = () => {
+            element.remove();
+            this.game.isPaused = false;
+            this.viewStory = false;
+        };
     }
 
-    async checkProgress() {
-        if (this.game.score >= this.storyPhase.development.score && !this.developmentShown) {
+    checkProgress() {
+        if (!this.developmentShown && this.game.score >= this.storyPhase.development.score) {
             this.developmentShown = true;
             this.game.isPaused = true;
-            this.viewStory = true
-            await this.showStoryDialog('development');
-            this.viewStory = false
-            this.game.isPaused = false;
+            this.viewStory = true;
+            let element = this.showStoryDialog('development');
+            element.querySelector('button').onclick = () => {
+                element.remove();
+                this.game.isPaused = false;
+                this.viewStory = false;
+            };
         }
     }
 
-    async showEnding(victory) {
+    showEnding(victory) {
         this.game.isPaused = true;
         this.viewStory = true
-        await this.showStoryDialog(victory ? 'victory' : 'defeat');
-        this.viewStory = false
+        return this.showStoryDialog(victory ? 'victory' : 'defeat');
     }
 }

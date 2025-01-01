@@ -4,13 +4,12 @@ import AlienGrid from "./modules/alienGrid.js";
 import VisualEffect from "./modules/visuals.js";
 import StoryMode from './modules/storyMode.js';
 
-
 // init all objects
 let effects = new VisualEffect();
 let game = new GameState(effects);
 let storyMode = new StoryMode(game);
 let ship = new SpaceShip(game);
-let aliens = new AlienGrid(game, effects)
+let aliens = new AlienGrid(game, effects);
 
 // init events
 const setupEvents = () => {
@@ -18,10 +17,12 @@ const setupEvents = () => {
         if (storyMode.viewStory === true) return
         if (e.key === 'Escape') game.pause()
     });
+
     document.getElementById('continue').addEventListener('click', () => game.pause());
     document.getElementById('restart').addEventListener('click', () => resetGame(200));
 
     window.addEventListener('keydown', (e) => {
+        if (storyMode.viewStory === true) return
         switch (e.code) {
             case 'ArrowLeft':
                 ship.moveDirection = -1;
@@ -47,6 +48,42 @@ const setupEvents = () => {
     });
 }
 
+// game loop function
+const gameLoop = () => {
+    if (!game.isPaused) {
+        game.updateState();
+        storyMode.checkProgress();
+
+        ship.updatePosition();
+        ship.updateBullets();
+        if (ship.isPlayerHits(aliens.bullets)) {
+            game.lives--;
+            effects.createPlayerHit();
+            if (game.lives <= 0) {
+                game.isPaused = true;
+                effects.createGameMessage('you are defeated!', false);
+                isVictory(false);
+            }
+        }
+
+        aliens.updateGridPosition();
+        aliens.updateBullets();
+        game.score += aliens.isAlienDestroyed(ship.bullets);
+
+        if (aliens.isAllAliensDestroyed()) {
+            game.isPaused = true;
+            game.effects.createGameMessage('Victory!', true);
+            isVictory(true);
+
+        } else if (aliens.isPlayerDestroyed()) {
+            game.isPaused = true;
+            effects.createGameMessage('you are defeated!', false);
+            isVictory(false);
+        }
+    }
+    requestAnimationFrame(gameLoop);
+}
+
 // reset the Game params
 const resetGame = (time) => {
     setTimeout(() => {
@@ -59,51 +96,25 @@ const resetGame = (time) => {
     }, time);
 };
 
-// game loop function
-const gameLoop = async () => {
-    if (!game.isPaused) {
-        game.updateState();
-        storyMode.checkProgress();
-
-        ship.updatePosition();
-        ship.updateBullets();
-        if (ship.isPlayerHits(aliens.bullets)) {
-            game.lives--;
-            effects.createPlayerHit();
-            if (game.lives <= 0) {
-                game.isPaused = true;
-                await storyMode.showEnding(false)
-                effects.createGameMessage('you are defeated!', false);
-                resetGame(2000);
-            }
-        }
-
-        aliens.updateGridPosition();
-        aliens.updateBullets();
-        game.score += aliens.isAlienDestroyed(ship.bullets);
-
-        if (aliens.isAllAliensDestroyed()) {
-            game.isPaused = true;
-            await storyMode.showEnding(true)
-            game.effects.createGameMessage('Victory!', true);
-            resetGame(2000);
-        } else if (aliens.isPlayerDestroyed()) {
-            game.isPaused = true;
-            await storyMode.showEnding(false)
-            game.effects.createGameMessage('you are defeated!', false);
-            resetGame(2000);
-        }
-    }
-    requestAnimationFrame(gameLoop);
+const isVictory = (victory) => {
+    setTimeout(() => {
+        let element = storyMode.showEnding(victory);
+        element.querySelector('button').onclick = () => {
+            element.remove();
+            game.isPaused = false;
+            storyMode.viewStory = false;
+            resetGame(0);
+        };
+    }, 2000);
 }
 
 // Start the game
-document.getElementById('start').addEventListener('click', async () => {
+document.getElementById('start').addEventListener('click', () => {
     const startContainer = document.getElementById('start-container')
-    startContainer.style.display = 'none';
-    await storyMode.showIntro()
+    startContainer.remove();
+    storyMode.showIntro();
     setupEvents();
-    gameLoop();
+    requestAnimationFrame(gameLoop);
 });
 
 // restarts the game in case of resizing the page width
@@ -111,8 +122,6 @@ let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout); // Clear the previous timeout
     resizeTimeout = setTimeout(() => {
-        const startContainer = document.getElementById('start-container')
-        startContainer.style.display = 'none';
         resetGame()
     }, 500);
 });
