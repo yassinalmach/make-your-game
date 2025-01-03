@@ -23,16 +23,24 @@ A vanilla JavaScript implementation of the classic Space Invaders game, optimize
 
 ```
 make-your-game/
+├── api/
+│   ├── handlers/    # 
+│       ├── get_scores.go     # 
+│       └── post_score.go     # 
+│   ├── database.db  # 
+│   └── main.go      # Entry point  
 ├── images/          # Game sprites and assets
-├── style/           # CSS files
 ├── script/
 │   ├── modules/     # Game logic modules
 │       ├── alien.js       # Alien entity logic
 │       ├── alienGrid.js   # Alien formation management
 │       ├── gameState.js   # Game state/scoring system
+│       ├── storyMode.js   # 
 │       ├── spaceShip.js   # Player ship controls
 │       └── visuals.js     # Visual effects/animations
 │   └── main.js      # Entry point  
+├── sounds/          # 
+├── style/           # 
 ├── index.html       # Main game page
 └── README.md        # Documentation
 ```
