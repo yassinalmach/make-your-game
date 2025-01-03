@@ -29,11 +29,35 @@ export default class StoryMode {
         container.innerHTML = `
             <h2>${this.storyPhase[phase].title}</h2>
             <p>${this.storyPhase[phase].content}</p>
-            <button class="menu-button">${phase === 'intro' ? 'Start Mission' : 'Continue'}</button>
-        `
+        `;
+    
+        let input;
+    
+        if (phase === 'victory' || phase === 'defeat') {
+            input = document.createElement('input');
+            input.placeholder = "Enter your name...";
+            input.classList.add('player-name');
+            container.appendChild(input);
+        }
+    
+        const button = document.createElement('button');
+        button.className = 'menu-button';
+        button.textContent = phase === 'intro' ? 'Start Mission' : 'Continue';
+        button.disabled = phase === 'victory' || phase === 'defeat'; 
+        container.appendChild(button);
+    
+        if (input) {
+            input.addEventListener('input', () => {
+                button.disabled = input.value.trim() === ''; 
+            });
+        }
+    
+        // Append container to the game area
         this.game.gameArea.appendChild(container);
-        return container
-    };
+        return container;
+    }
+    
+    
 
     showIntro() {
         this.game.isPaused = true;

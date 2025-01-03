@@ -134,6 +134,12 @@ h1 {
     background-color: #64646479;
 }
 
+.menu-button:disabled {
+    background-color: #ffffff2f; 
+    color: #cfcfcf;           
+    cursor: not-allowed;
+}
+
 .ship {
     position: absolute;
     will-change: transform;
@@ -209,6 +215,12 @@ h1 {
     animation: fadeInOut 2s ease-in-out forwards;
     will-change: opacity;
     pointer-events: none;
+}
+
+.player-name{
+    padding: 5px;
+    min-width: 50%;
+    margin-bottom: 10px;
 }
 
 /* keyframes */
