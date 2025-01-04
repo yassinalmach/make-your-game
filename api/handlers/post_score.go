@@ -7,6 +7,17 @@ import (
 
 // HandlePostScore adds a new score to the database
 func HandlePostScore(w http.ResponseWriter, r *http.Request) {
+	// Add CORS headers
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	if r.Method == http.MethodOptions {
+		// Handle preflight request
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
@@ -29,7 +40,6 @@ func HandlePostScore(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Insert the score into the database
 	query := `INSERT INTO scoreboard (name, score, time) VALUES (?, ?, ?)`
 	_, err = DB.Exec(query, data.Name, data.Score, data.Time)
 	if err != nil {
