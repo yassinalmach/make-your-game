@@ -294,6 +294,107 @@ h1 {
     padding: 10px 20px;
 }
 
+.scoreboard {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #5a5a5ab2;
+    color: white;
+    text-align: center;
+    width: 80%;
+    z-index: 1000;
+}
+
+.scoreboard h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #e5ff00;
+}
+
+.scores {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.score-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #1a1a1a;
+}
+
+.score-card.first {
+    background: linear-gradient(90deg, gold, #1a1a1a);
+    color: black;
+    font-weight: bold;
+}
+
+.score-card.second {
+    background: linear-gradient(90deg, silver, #1a1a1a);
+    color: black;
+    font-weight: bold;
+}
+
+.score-card.third {
+    background: linear-gradient(90deg, #cd7f32, #1a1a1a);
+    color: black;
+    font-weight: bold;
+}
+
+.rank, .name, .score, .time {
+    width: 25%;
+    text-align: center;
+}
+
+.pagination {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-btn {
+    padding: 5px 10px;
+    background-color: #ffffff57;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.page-btn:disabled {
+    background-color: #ffffff2f;
+    color: #cfcfcf;
+    cursor: not-allowed;
+}
+
+#play-again{
+    display: none;
+    position: absolute;
+    top: 68%;
+    left: 35%;
+    font-size: 20px;
+    width: 200px;
+    margin: 10px auto;
+    padding: 10px 10px;
+    background-color: #ffffff57;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+}
+
+#play-again:hover{
+    background-color: #64646479;
+}
+
 /* responsive styles */
 @media (max-width: 805px) {
     #game-container {

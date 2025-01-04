@@ -37,6 +37,7 @@ export default class StoryMode {
             input = document.createElement('input');
             input.placeholder = "Enter your name...";
             input.classList.add('player-name');
+            input.setAttribute('id','player-name')
             container.appendChild(input);
         }
     

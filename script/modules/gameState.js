@@ -10,10 +10,8 @@ export default class GameState {
         this.FRAME_TIME = 1 / 60;
 
         this.init();
-        this.pauseMenu.style.display = 'none';
-        this.pauseContainer.style.display = 'none';
     }
-
+    
     init() {
         this.gameArea = document.getElementById('game-area');
         this.scoreElement = document.getElementById('score');
@@ -21,6 +19,12 @@ export default class GameState {
         this.livesElement = document.getElementById('lives');
         this.pauseContainer = document.getElementById('pause-container');
         this.pauseMenu = document.getElementById('pause-menu');
+        if (this.pauseMenu) {
+            this.pauseMenu.style.display = 'none';
+        }
+        if (this.pauseContainer) {
+            this.pauseContainer.style.display = 'none';
+        }
     }
 
     pause() {

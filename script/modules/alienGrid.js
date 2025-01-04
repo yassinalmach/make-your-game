@@ -9,8 +9,8 @@ export default class AlienGrid {
         this.MOVE_SPEED = 1;
         this.dropDistance = 40;
 
-        this.columns = 8;
-        this.rows = 4;
+        this.columns = 1;
+        this.rows = 1;
         this.x_Spacing = this.gameArea.offsetWidth / 13; // default it was 60
         this.y_Spacing = this.gameArea.offsetWidth / 16; // default it was 50
 
