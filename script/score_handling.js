@@ -104,9 +104,6 @@ export const postScore = async (data) => {
 
     const response = await fetch(`${API_URL}post-score`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify(data),
     });
 
@@ -117,16 +114,8 @@ export const postScore = async (data) => {
     const result = await response.json();
     console.log("Score submitted successfully:", result);
 
-    // Fetch and render updated scoreboard after successful post
-    const updatedData = await fetchScores(1);
-    renderScoreboard(updatedData);
-
     return result;
   } catch (error) {
     console.error("Error submitting score:", error.message);
-    // Re-render the scoreboard even if posting fails
-    const currentData = await fetchScores(1);
-    renderScoreboard(currentData);
-    throw error;
   }
 };
