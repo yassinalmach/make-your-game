@@ -1,17 +1,18 @@
 package handlers
 
 import (
+	"bytes"
 	"encoding/json"
+	"log"
 	"net/http"
+	"os"
+	"sort"
 )
 
 // HandlePostScore adds a new score to the database
 func HandlePostScore(w http.ResponseWriter, r *http.Request) {
 	// Add CORS headers
-	w.Header().Set("Cache-Control", "no-store")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
-	w.Header().Set("Content-Type", "application/json")
 
 	// Handle preflight OPTIONS request
 	if r.Method == http.MethodOptions {
@@ -25,11 +26,7 @@ func HandlePostScore(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var data struct {
-		Name  string `json:"name"`
-		Score int    `json:"score"`
-		Time  string `json:"time"`
-	}
+	var data Score
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
@@ -41,5 +38,62 @@ func HandlePostScore(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	scores, err := ReadJSON()
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 
+	scores = append(scores, data)
+
+	scores = SortJSON(scores)
+
+	err = WriteJSON(scores)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	scores1, err := ReadJSON()
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(scores1)
+}
+
+func ReadJSON() ([]Score, error) {
+	var scores []Score
+	scoresJSON, err := os.ReadFile("./scores.json")
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(scoresJSON, &scores)
+	if err != nil {
+		return nil, err
+	}
+	return scores, nil
+}
+
+func SortJSON(scores []Score) []Score {
+	sort.Slice(scores, func(i, j int) bool {
+		return scores[i].Score > scores[j].Score
+	})
+	return scores
+}
+
+func WriteJSON(scores []Score) error {
+	f, err := os.Open("./scores.json")
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	scoresBytes := new(bytes.Buffer)
+	json.NewEncoder(scoresBytes).Encode(scores)
+	_, err = f.Write(scoresBytes.Bytes())
+	if err != nil {
+		return err
+	}
+	return nil
 }

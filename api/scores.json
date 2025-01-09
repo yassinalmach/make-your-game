@@ -1,15 +1,15 @@
 [
     {
-        "rank": 1,
-        "name": "Hamza Maach",
-        "score": 100,
-        "time": "00:45"
-    },
-    {
         "rank": 2,
         "name": "Sarah Smith",
         "score": 95,
         "time": "00:47"
+    },
+    {
+        "rank": 1,
+        "name": "Hamza Maach",
+        "score": 100,
+        "time": "00:45"
     },
     {
         "rank": 3,

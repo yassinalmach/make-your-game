@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 )
 
 type Score struct {
@@ -27,16 +26,8 @@ func HandleGetScors(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
 	}
-	
-	var scores []Score
-	scoresJSON, err := os.ReadFile("./scores.json")
-	if err != nil {
-		fmt.Println(err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
 
-	err = json.Unmarshal(scoresJSON, &scores)
+	scores, err := ReadJSON()
 	if err != nil {
 		fmt.Println(err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
