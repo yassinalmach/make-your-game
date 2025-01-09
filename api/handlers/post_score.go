@@ -41,15 +41,5 @@ func HandlePostScore(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	query := `INSERT INTO scoreboard (name, score, time) VALUES (?, ?, ?)`
-	_, err = DB.Exec(query, data.Name, data.Score, data.Time)
-	if err != nil {
-		http.Error(w, "Failed to save score", http.StatusInternalServerError)
-		return
-	}
 
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(map[string]string{
-		"message": "Score added successfully",
-	})
 }

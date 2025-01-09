@@ -120,7 +120,7 @@ const isVictory = async (victory, time, score) => {
       };
       console.log(data);
 
-      // postScore(data); // Submit the score
+      postScore(data); // Submit the score
       fetchScores();
       element.remove();
     });

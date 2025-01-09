@@ -98,7 +98,9 @@ export const fetchScores = async (page = 1) => {
 
 export const postScore = async (data) => {
   try {
-    if (!data || !data.name || !data.score || !data.time) {
+    console.log(data);
+    
+    if (!data || !data.name || !data.time) {
       throw new Error("Invalid score data");
     }
 
