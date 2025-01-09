@@ -1,22 +1,22 @@
 package handlers
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 )
 
-var DB *sql.DB
+type Score struct {
+	Rank  int    `json:"rank"`
+	Name  string `json:"name"`
+	Score int    `json:"score"`
+	Time  string `json:"time"`
+}
 
 // HandleGetScors retrieves scores from the database
 func HandleGetScors(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "GET")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	if r.URL.Path != "/" {
 		http.Error(w, "Not Found", http.StatusNotFound)
@@ -27,15 +27,22 @@ func HandleGetScors(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
 	}
-
-	scores, err := os.ReadFile("./scores.json")
+	
+	var scores []Score
+	scoresJSON, err := os.ReadFile("./scores.json")
 	if err != nil {
 		fmt.Println(err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
 	}
-	log.Println(scores)
-	// Return response
-	response := map[string]interface{}{
-		"scores": 1,
+
+	err = json.Unmarshal(scoresJSON, &scores)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
 	}
-	json.NewEncoder(w).Encode(response)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(scores)
 }
