@@ -129,7 +129,7 @@ const isVictory = async (victory, time, score) => {
       }
       element.remove(); 
     });
-  }, 200);
+  }, 2000);
 };
 
 // Start the game
