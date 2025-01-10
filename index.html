@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +7,6 @@
     <link rel="stylesheet" href="/style/main.css">
     <title>Space Invaders</title>
 </head>
-
 <body>
     <h1>Space Invaders</h1>
     <div id="game-container">
@@ -18,7 +16,29 @@
             <span id="lives"></span>
         </div>
         <div id="game-area"></div>
-        <div id="start-container">
+        <div id="map-select-container">
+            <div id="map-select-menu">
+                <h2>Select Map</h2>
+                <div class="map-grid">
+                    <div class="map-card" data-map="map1">
+                        <img src="/images/maps/map1.png" alt="Map 1">
+                        <h3>Easy Map</h3>
+                        <p>Perfect for beginners</p>
+                    </div>
+                    <div class="map-card" data-map="map2">
+                        <img src="/images/maps/map2.png" alt="Map 2">
+                        <h3>Medium Map</h3>
+                        <p>Balanced challenge</p>
+                    </div>
+                    <div class="map-card" data-map="map3">
+                        <img src="/images/maps/map3.png" alt="Map 3">
+                        <h3>Hard Map</h3>
+                        <p>For experienced players</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="start-container" style="display: none;">
             <div id="start-menu">
                 <div class="start-icons">
                     <img src="/images/icons/esc.png" alt="esc-icon">

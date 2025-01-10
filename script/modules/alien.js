@@ -1,20 +1,20 @@
 export default class Alien {
-    constructor(x, y, gameArea) {
+    constructor(x, y, gameArea, map) {
         this.gameArea = gameArea;
         this.width = gameArea.offsetWidth / 14; // default it was 60
         this.height = (gameArea.offsetWidth / 14) * .7; // default it was 40
         this.position = { x, y };
         this.isAlive = true;
-        this.points = 10;
+        this.points = map.points;
 
-        this.element = this.createAlienElement();
-        this.updatePosition();
+        this.element = this.createAlienElement(map);
+        this.updatePosition();        
     }
 
-    createAlienElement() {
+    createAlienElement(map) {
         const alien = document.createElement('img');
         alien.className = 'alien';
-        alien.src = 'images/alien.png';
+        alien.src = map.img;
         alien.alt = 'chirir'
         alien.style.width = `${this.width}px`;
         alien.style.height = `${this.height}px`;

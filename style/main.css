@@ -135,8 +135,8 @@ h1 {
 }
 
 .menu-button:disabled {
-    background-color: #ffffff2f; 
-    color: #cfcfcf;           
+    background-color: #ffffff2f;
+    color: #cfcfcf;
     cursor: not-allowed;
 }
 
@@ -217,7 +217,7 @@ h1 {
     pointer-events: none;
 }
 
-.player-name{
+.player-name {
     padding: 5px;
     min-width: 50%;
     margin-bottom: 10px;
@@ -347,7 +347,10 @@ h1 {
     font-weight: bold;
 }
 
-.rank, .name, .score, .time {
+.rank,
+.name,
+.score,
+.time {
     width: 25%;
     text-align: center;
 }
@@ -375,7 +378,7 @@ h1 {
     cursor: not-allowed;
 }
 
-#play-again{
+#play-again {
     display: none;
     position: absolute;
     top: 77%;
@@ -391,9 +394,88 @@ h1 {
     font-family: 'Courier New', monospace;
 }
 
-#play-again:hover{
+#play-again:hover {
     background-color: #64646479;
 }
+
+/* Map Selection Styles */
+#map-select-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.658);
+}
+
+#map-select-menu {
+    width: 80%;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    border: 2px solid #5a5a5ab2;
+}
+
+#map-select-menu h2 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #e5ff00;
+    text-shadow: 0 0 10px rgba(229, 255, 0, 0.712);
+}
+
+.map-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.map-card {
+    flex: 0 1 calc(33.333% - 20px);
+    min-width: 250px;
+    background-color: #1a1a1a;
+    border: 2px solid #5a5a5ab2;
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+    text-align: center;
+}
+
+.map-card:hover {
+    transform: translateY(-5px);
+    border-color: #e5ff00;
+}
+
+.map-card.selected {
+    border-color: #e5ff00;
+    box-shadow: 0 0 15px rgba(229, 255, 0, 0.5);
+}
+
+.map-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.map-card h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.map-card p {
+    font-size: 14px;
+    color: #888;
+}
+
 
 /* responsive styles */
 @media (max-width: 805px) {
@@ -404,6 +486,14 @@ h1 {
     h1 {
         font-size: 30px;
         margin: 5px 0;
+    }
+
+    .map-card {
+        flex: 0 1 calc(50% - 20px);
+    }
+
+    #map-select-menu {
+        width: 90%;
     }
 }
 
@@ -427,18 +517,18 @@ h1 {
         padding: 8px;
         border-radius: 8px;
     }
-    
+
     .story-dialog h2 {
         font-size: 22px;
         margin-bottom: 10px;
     }
-    
+
     .story-dialog p {
         font-size: 12px;
         line-height: 1.6;
         margin-bottom: 15px;
     }
-    
+
     .story-dialog .menu-button {
         font-size: 20px;
         padding: 10px 20px;
@@ -479,5 +569,18 @@ h1 {
     .alien-bullet {
         width: 2.5px;
         height: 8px;
+    }
+
+    .map-card {
+        flex: 0 1 100%;
+    }
+
+    #map-select-menu {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .map-card img {
+        height: 100px;
     }
 }

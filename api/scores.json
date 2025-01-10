@@ -1,42 +1,78 @@
 [
   {
     "rank": 1,
+    "name": "SMAI",
+    "score": 340,
+    "time": "00:14"
+  },
+  {
+    "rank": 2,
+    "name": "HAMza",
+    "score": 280,
+    "time": "00:17"
+  },
+  {
+    "rank": 3,
+    "name": "Fahd",
+    "score": 190,
+    "time": "00:12"
+  },
+  {
+    "rank": 4,
+    "name": "sqd",
+    "score": 80,
+    "time": "00:04"
+  },
+  {
+    "rank": 5,
+    "name": "dfd",
+    "score": 50,
+    "time": "00:09"
+  },
+  {
+    "rank": 6,
     "name": "oussama",
     "score": 30,
     "time": "00:04"
   },
   {
-    "rank": 2,
+    "rank": 7,
+    "name": "sdds",
+    "score": 30,
+    "time": "00:03"
+  },
+  {
+    "rank": 8,
     "name": "hamza",
     "score": 10,
     "time": "00:03"
   },
   {
-    "rank": 3,
-    "name": "yassine",
-    "score": 10,
-    "time": "00:02"
-  },
-  {
-    "rank": 4,
+    "rank": 9,
     "name": "maach",
     "score": 10,
     "time": "00:02"
   },
   {
-    "rank": 5,
+    "rank": 10,
     "name": "dsd,f",
     "score": 10,
     "time": "00:02"
   },
   {
-    "rank": 6,
+    "rank": 11,
     "name": "qsdkd",
     "score": 10,
     "time": "00:01"
   },
   {
-    "rank": 7,
+    "rank": 12,
+    "name": "yassine",
+    "score": 10,
+    "time": "00:02"
+  },
+  {
+    "rank": 13,
     "name": "oussama",
     "score": 0,
     "time": "00:04"

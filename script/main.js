@@ -4,13 +4,42 @@ import AlienGrid from "./modules/alienGrid.js";
 import VisualEffect from "./modules/visuals.js";
 import StoryMode from "./modules/storyMode.js";
 import { postScore, fetchScores, renderScoreboard } from "./score_handling.js";
+import { maps } from "./maps.js";
 
-// init all objects
+let selectedMap = null;
 let effects = new VisualEffect();
-let game = new GameState(effects);
-let storyMode = new StoryMode(game);
-let ship = new SpaceShip(game);
-let aliens = new AlienGrid(game, effects);
+let game, storyMode, ship, aliens;
+
+// Initialize map selection
+const initMapSelection = () => {
+  const mapCards = document.querySelectorAll('.map-card');
+  const startContainer = document.getElementById("start-container");
+  const mapSelectContainer = document.getElementById("map-select-container");
+
+  mapCards.forEach(card => {
+    card.addEventListener('click', () => {
+      // Remove selected class from all cards
+      mapCards.forEach(c => c.classList.remove('selected'));
+      // Add selected class to clicked card
+      card.classList.add('selected');
+      selectedMap = maps.get(card.dataset.map);
+
+      // Show start container after delay
+      setTimeout(() => {
+        mapSelectContainer.style.display = 'none';
+        startContainer.style.display = 'flex';
+      }, 500);
+    });
+  });
+};
+
+// Initialize game objects
+const initGameObjects = () => {
+  game = new GameState(effects);
+  storyMode = new StoryMode(game);
+  ship = new SpaceShip(game, selectedMap.spaceship);
+  aliens = new AlienGrid(game, effects, selectedMap);
+};
 
 // init events
 const setupEvents = () => {
@@ -97,14 +126,14 @@ const gameLoop = () => {
 };
 
 // reset the Game params
-const resetGame = (time) => {
+const resetGame = (time, isResize = false) => {
   setTimeout(() => {
     game.gameArea.innerHTML = "";
     game = new GameState(effects);
-    ship = new SpaceShip(game);
+    ship = new SpaceShip(game, selectedMap.spaceship);
     storyMode = new StoryMode(game);
-    aliens = new AlienGrid(game, effects);
-    storyMode.showIntro();
+    aliens = new AlienGrid(game, effects, selectedMap);
+    if (!isResize) storyMode.showIntro();
   }, time);
 };
 
@@ -134,8 +163,13 @@ const isVictory = async (victory, time, score) => {
 
 // Start the game
 document.getElementById("start").addEventListener("click", () => {
+  if (!selectedMap) {
+    alert("Please select a map first!");
+    return;
+  }
   const startContainer = document.getElementById("start-container");
   startContainer.remove();
+  initGameObjects();
   storyMode.showIntro();
   setupEvents();
   requestAnimationFrame(gameLoop);
@@ -144,8 +178,11 @@ document.getElementById("start").addEventListener("click", () => {
 // restarts the game in case of resizing the page width
 let resizeTimeout;
 window.addEventListener("resize", () => {
-  clearTimeout(resizeTimeout); // Clear the previous timeout
+  clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    resetGame();
+    resetGame(0, true);
   }, 500);
 });
+
+// Initialize map selection when the page loads
+initMapSelection();
