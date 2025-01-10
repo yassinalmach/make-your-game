@@ -110,19 +110,24 @@ const resetGame = (time) => {
 
 const isVictory = async (victory, time, score) => {
   setTimeout(() => {
-    let element = storyMode.showEnding(victory);
-    element.querySelector("button").addEventListener("click", (e) => {
-      e.preventDefault(); // Prevent default behavior
+    const element = storyMode.showEnding(victory);
+    element.querySelector("button").addEventListener("click", async (e) => {
       const data = {
         name: element.querySelector("input#player-name").value,
         time: time,
         score: score,
       };
-      console.log(data);
 
-      // postScore(data); // Submit the score
-      fetchScores();
-      element.remove();
+      try {
+        const response = await postScore(data);
+        if (response) {
+          await fetchScores(); 
+        }
+      } catch (error) {
+        console.error("Error submitting score:", error.message);
+        alert("Failed to submit score. Please try again later.");
+      }
+      element.remove(); 
     });
   }, 200);
 };

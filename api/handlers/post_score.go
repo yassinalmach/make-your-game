@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -13,6 +13,8 @@ import (
 func HandlePostScore(w http.ResponseWriter, r *http.Request) {
 	// Add CORS headers
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	// Handle preflight OPTIONS request
 	if r.Method == http.MethodOptions {
@@ -20,7 +22,6 @@ func HandlePostScore(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Handle actual POST request
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
@@ -40,6 +41,7 @@ func HandlePostScore(w http.ResponseWriter, r *http.Request) {
 
 	scores, err := ReadJSON()
 	if err != nil {
+		log.Println(err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
@@ -55,22 +57,26 @@ func HandlePostScore(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	scores1, err := ReadJSON()
-
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(scores1)
+	json.NewEncoder(w).Encode(map[string]string{"message": "success"})
 }
 
 func ReadJSON() ([]Score, error) {
 	var scores []Score
 	scoresJSON, err := os.ReadFile("./scores.json")
+	if os.IsNotExist(err) {
+		return scores, nil
+	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to read scores.json: %w", err)
+	}
+	if len(scoresJSON) == 0 {
+		return scores, nil
 	}
 
 	err = json.Unmarshal(scoresJSON, &scores)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to unmarshal scores.json: %w", err)
 	}
 	return scores, nil
 }
@@ -79,21 +85,26 @@ func SortJSON(scores []Score) []Score {
 	sort.Slice(scores, func(i, j int) bool {
 		return scores[i].Score > scores[j].Score
 	})
+	for i := range scores {
+		scores[i].Rank = i + 1
+	}
 	return scores
 }
 
 func WriteJSON(scores []Score) error {
-	f, err := os.Open("./scores.json")
+	// Open the file in write mode, create it if it doesn't exist
+	file, err := os.OpenFile("./scores.json", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o644)
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer file.Close()
 
-	scoresBytes := new(bytes.Buffer)
-	json.NewEncoder(scoresBytes).Encode(scores)
-	_, err = f.Write(scoresBytes.Bytes())
-	if err != nil {
+	// Encode the scores to JSON and write them to the file
+	encoder := json.NewEncoder(file)
+	encoder.SetIndent("", "  ") // For pretty formatting
+	if err := encoder.Encode(scores); err != nil {
 		return err
 	}
+
 	return nil
 }

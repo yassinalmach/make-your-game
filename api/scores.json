@@ -1,146 +1,44 @@
 [
-    {
-        "rank": 2,
-        "name": "Sarah Smith",
-        "score": 95,
-        "time": "00:47"
-    },
-    {
-        "rank": 1,
-        "name": "Hamza Maach",
-        "score": 100,
-        "time": "00:45"
-    },
-    {
-        "rank": 3,
-        "name": "John Doe",
-        "score": 90,
-        "time": "00:50"
-    },
-    {
-        "rank": 4,
-        "name": "Hamza Maach",
-        "score": 85,
-        "time": "00:51"
-    },
-    {
-        "rank": 5,
-        "name": "Emily Davis",
-        "score": 80,
-        "time": "01:00"
-    },
-    {
-        "rank": 6,
-        "name": "Michael Brown",
-        "score": 78,
-        "time": "01:02"
-    },
-    {
-        "rank": 7,
-        "name": "Hamza Maach",
-        "score": 75,
-        "time": "01:10"
-    },
-    {
-        "rank": 8,
-        "name": "Laura Wilson",
-        "score": 70,
-        "time": "01:15"
-    },
-    {
-        "rank": 9,
-        "name": "David Johnson",
-        "score": 68,
-        "time": "01:20"
-    },
-    {
-        "rank": 10,
-        "name": "Hamza Maach",
-        "score": 65,
-        "time": "01:25"
-    },
-    {
-        "rank": 11,
-        "name": "Anna Garcia",
-        "score": 62,
-        "time": "01:30"
-    },
-    {
-        "rank": 12,
-        "name": "James Miller",
-        "score": 60,
-        "time": "01:35"
-    },
-    {
-        "rank": 13,
-        "name": "Hamza Maach",
-        "score": 58,
-        "time": "01:40"
-    },
-    {
-        "rank": 14,
-        "name": "Sophia Lee",
-        "score": 55,
-        "time": "01:45"
-    },
-    {
-        "rank": 15,
-        "name": "Chris Martinez",
-        "score": 52,
-        "time": "01:50"
-    },
-    {
-        "rank": 16,
-        "name": "Hamza Maach",
-        "score": 50,
-        "time": "01:55"
-    },
-    {
-        "rank": 17,
-        "name": "Isabella White",
-        "score": 48,
-        "time": "02:00"
-    },
-    {
-        "rank": 18,
-        "name": "Liam Harris",
-        "score": 46,
-        "time": "02:05"
-    },
-    {
-        "rank": 19,
-        "name": "Hamza Maach",
-        "score": 44,
-        "time": "02:10"
-    },
-    {
-        "rank": 20,
-        "name": "Ella Clark",
-        "score": 42,
-        "time": "02:15"
-    },
-    {
-        "rank": 21,
-        "name": "Noah Lewis",
-        "score": 40,
-        "time": "02:20"
-    },
-    {
-        "rank": 22,
-        "name": "Hamza Maach",
-        "score": 38,
-        "time": "02:25"
-    },
-    {
-        "rank": 23,
-        "name": "Ava Walker",
-        "score": 35,
-        "time": "02:30"
-    },
-    {
-        "rank": 24,
-        "name": "William Hall",
-        "score": 32,
-        "time": "02:35"
-    }
+  {
+    "rank": 1,
+    "name": "oussama",
+    "score": 30,
+    "time": "00:04"
+  },
+  {
+    "rank": 2,
+    "name": "hamza",
+    "score": 10,
+    "time": "00:03"
+  },
+  {
+    "rank": 3,
+    "name": "yassine",
+    "score": 10,
+    "time": "00:02"
+  },
+  {
+    "rank": 4,
+    "name": "maach",
+    "score": 10,
+    "time": "00:02"
+  },
+  {
+    "rank": 5,
+    "name": "dsd,f",
+    "score": 10,
+    "time": "00:02"
+  },
+  {
+    "rank": 6,
+    "name": "qsdkd",
+    "score": 10,
+    "time": "00:01"
+  },
+  {
+    "rank": 7,
+    "name": "oussama",
+    "score": 0,
+    "time": "00:04"
+  }
 ]
