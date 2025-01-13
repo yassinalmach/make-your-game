@@ -3,7 +3,7 @@ import SpaceShip from "./modules/spaceShip.js";
 import AlienGrid from "./modules/alienGrid.js";
 import VisualEffect from "./modules/visuals.js";
 import StoryMode from "./modules/storyMode.js";
-import { postScore, fetchScores, renderScoreboard } from "./score_handling.js";
+import { postScore, fetchScores } from "./score_handling.js";
 
 // init all objects
 let effects = new VisualEffect();
@@ -108,26 +108,34 @@ const resetGame = (time) => {
   }, time);
 };
 
+let isPlayAgain = false
+
 const isVictory = async (victory, time, score) => {
   setTimeout(() => {
     const element = storyMode.showEnding(victory);
-    element.querySelector("button").addEventListener("click", async (e) => {
+    element.querySelector("button").addEventListener("click", async () => {
+      isPlayAgain = true
       const data = {
         name: element.querySelector("input#player-name").value,
         time: time,
         score: score,
       };
 
+
       try {
         const response = await postScore(data);
-        if (response) {
-          await fetchScores(); 
+        if (response.message === "success") {
+          await fetchScores();
+        } else {
+          throw "error"
         }
       } catch (error) {
         console.error("Error submitting score:", error.message);
         alert("Failed to submit score. Please try again later.");
       }
-      element.remove(); 
+      element.remove();
+      isPlayAgain = false
+
     });
   }, 2000);
 };
@@ -144,8 +152,11 @@ document.getElementById("start").addEventListener("click", () => {
 // restarts the game in case of resizing the page width
 let resizeTimeout;
 window.addEventListener("resize", () => {
+  if (isPlayAgain) return
   clearTimeout(resizeTimeout); // Clear the previous timeout
   resizeTimeout = setTimeout(() => {
+    const startContainer = document.getElementById("start-container");
+    startContainer.remove();
     resetGame();
   }, 500);
 });

@@ -72,9 +72,9 @@ export const renderScoreboard = (data = null) => {
   document.getElementById("play-again").style.display = "block"
 }
 
-export const fetchScores = async (page = 1) => {
+export const fetchScores = async () => {
   try {
-    const response = await fetch(`${API_URL}?page=${page}`)
+    const response = await fetch(`${API_URL}`)
 
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`)
