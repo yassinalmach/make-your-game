@@ -64,14 +64,11 @@ func HandlePostScore(w http.ResponseWriter, r *http.Request) {
 func ReadJSON() ([]Score, error) {
 	var scores []Score
 	scoresJSON, err := os.ReadFile("./scores.json")
-	if os.IsNotExist(err) {
+	if os.IsNotExist(err) || len(scoresJSON) == 0 {
 		return scores, nil
 	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to read scores.json: %w", err)
-	}
-	if len(scoresJSON) == 0 {
-		return scores, nil
 	}
 
 	err = json.Unmarshal(scoresJSON, &scores)
@@ -92,19 +89,10 @@ func SortJSON(scores []Score) []Score {
 }
 
 func WriteJSON(scores []Score) error {
-	// Open the file in write mode, create it if it doesn't exist
-	file, err := os.OpenFile("./scores.json", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o644)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
+    jsonData, err := json.MarshalIndent(scores, "", "  ")
+    if err != nil {
+        return err
+    }
 
-	// Encode the scores to JSON and write them to the file
-	encoder := json.NewEncoder(file)
-	encoder.SetIndent("", "  ") // For pretty formatting
-	if err := encoder.Encode(scores); err != nil {
-		return err
-	}
-
-	return nil
+    return os.WriteFile("./scores.json", jsonData, 0644)
 }
