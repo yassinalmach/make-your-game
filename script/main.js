@@ -40,6 +40,8 @@ const initGameObjects = () => {
   aliens = new AlienGrid(game, effects, selectedMap);
 };
 
+let canResize = true
+
 // init events
 const setupEvents = () => {
   document.addEventListener("keydown", (e) => {
@@ -147,6 +149,7 @@ const isVictory = async (victory, time, score) => {
         time: time,
         score: score,
       };
+
 
       try {
         const response = await postScore(data);
