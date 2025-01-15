@@ -12,6 +12,8 @@ let storyMode = new StoryMode(game);
 let ship = new SpaceShip(game);
 let aliens = new AlienGrid(game, effects);
 
+let canResize = true
+
 // init events
 const setupEvents = () => {
   document.addEventListener("keydown", (e) => {
@@ -31,6 +33,7 @@ const setupEvents = () => {
     resetGame(200);
     document.getElementById("scoreboard").remove();
     playAgain.style.display = "none";
+    canResize = true
   });
 
   window.addEventListener("keydown", (e) => {
@@ -64,6 +67,7 @@ const setupEvents = () => {
 
 // game loop function
 const gameLoop = () => {
+  if (document.getElementById("play-again").style.display === 'block') canResize = false;
   if (!game.isPaused) {
     game.updateState();
     storyMode.checkProgress();
@@ -108,13 +112,10 @@ const resetGame = (time) => {
   }, time);
 };
 
-let isPlayAgain = false
-
 const isVictory = async (victory, time, score) => {
   setTimeout(() => {
     const element = storyMode.showEnding(victory);
     element.querySelector("button").addEventListener("click", async () => {
-      isPlayAgain = true
       const data = {
         name: element.querySelector("input#player-name").value,
         time: time,
@@ -134,8 +135,6 @@ const isVictory = async (victory, time, score) => {
         alert("Failed to submit score. Please try again later.");
       }
       element.remove();
-      isPlayAgain = false
-
     });
   }, 2000);
 };
@@ -152,11 +151,10 @@ document.getElementById("start").addEventListener("click", () => {
 // restarts the game in case of resizing the page width
 let resizeTimeout;
 window.addEventListener("resize", () => {
-  if (isPlayAgain) return
-  clearTimeout(resizeTimeout); // Clear the previous timeout
-  resizeTimeout = setTimeout(() => {
-    const startContainer = document.getElementById("start-container");
-    startContainer.remove();
-    resetGame();
-  }, 500);
+  if (canResize) {
+    clearTimeout(resizeTimeout); // Clear the previous timeout
+    resizeTimeout = setTimeout(() => {
+      resetGame();
+    }, 500);
+  }
 });
