@@ -19,13 +19,11 @@ const initMapSelection = () => {
 
   mapCards.forEach(card => {
     card.addEventListener('click', () => {
-      // Remove selected class from all cards
       mapCards.forEach(c => c.classList.remove('selected'));
-      // Add selected class to clicked card
+
       card.classList.add('selected');
       selectedMap = maps.get(card.dataset.map);
 
-      // Show start container after delay
       setTimeout(() => {
         mapSelectContainer.style.display = 'none';
         startContainer.style.display = 'flex';
@@ -166,7 +164,6 @@ const isVictory = async (victory, time, score) => {
   }, 2000);
 };
 
-// Start the game
 document.getElementById("start").addEventListener("click", () => {
   if (!selectedMap) {
     alert("Please select a map first!");
@@ -180,7 +177,6 @@ document.getElementById("start").addEventListener("click", () => {
   requestAnimationFrame(gameLoop);
 });
 
-// restarts the game in case of resizing the page width
 let resizeTimeout;
 window.addEventListener("resize", () => {
   if (canResize) {
@@ -191,5 +187,4 @@ window.addEventListener("resize", () => {
   }
 });
 
-// Initialize map selection when the page loads
 initMapSelection();

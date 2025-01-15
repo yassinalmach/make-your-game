@@ -12,8 +12,8 @@ maps.set('map1', {
     },
     spaceship: {
         img: 'images/ship1.png',
-        speed: 6,
-        bullet_speed: 10,
+        speed: 8,
+        bullet_speed: 12,
         lives: 5,
         cooldown: 300
     },
@@ -27,9 +27,9 @@ maps.set('map1', {
 
 maps.set('map2', {
     columns: 8,
-    rows: 5,
+    rows: 4,
     speed: 2,
-    bullet_speed: 5,
+    bullet_speed: 6,
     aliens_count: 20,
     alien: {
         img: 'images/alien2.png',
@@ -51,23 +51,22 @@ maps.set('map2', {
     
 })
 
-
 maps.set('map3', {
     columns: 8,
     rows: 4,
-    speed: 2,
-    bullet_speed: 5,
+    speed: 4,
+    bullet_speed: 8,
     aliens_count: 32,
     alien: {
         img: 'images/alien3.png',
-        points: 30,
+        points: 50,
     },
     spaceship: {
         img: 'images/ship3.png',
-        speed: 5,
-        bullet_speed: 8,
+        speed: 9,
+        bullet_speed: 12,
         lives: 3,
-        cooldown: 200
+        cooldown: 300
     },
     tiles: [
         1, 1, 1, 1, 1, 1, 1, 1,

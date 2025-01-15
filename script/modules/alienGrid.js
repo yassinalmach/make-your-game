@@ -98,9 +98,9 @@ export default class AlienGrid {
     updateDifficulty() {
         const totalAlive = this.aliens.filter(alien => alien.isAlive).length;
         const percente = totalAlive * 100 / this.aliens_count;
-        if (percente < 10) this.MOVE_SPEED = 5
-        else if (percente < 20) this.MOVE_SPEED = 4;
-        else if (percente < 40) this.MOVE_SPEED = 3.5;
+        if (percente < 10) this.MOVE_SPEED = 6
+        else if (percente < 20) this.MOVE_SPEED = 5;
+        else if (percente < 40) this.MOVE_SPEED = 4;
     }
 
     getBottomAliens(startGrid) {

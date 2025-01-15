@@ -1,14 +1,26 @@
 [
   {
     "rank": 1,
-    "name": "hhhhhhhhhhh",
-    "score": 400,
-    "time": "00:22"
+    "name": "YSN THE GOAT",
+    "score": 1600,
+    "time": "00:17"
   },
   {
     "rank": 2,
-    "name": "yassine",
+    "name": "MEDIUM GOAT",
+    "score": 400,
+    "time": "00:17"
+  },
+  {
+    "rank": 3,
+    "name": "EASY GOAT",
     "score": 160,
-    "time": "00:22"
+    "time": "00:12"
+  },
+  {
+    "rank": 4,
+    "name": "LOSER",
+    "score": 0,
+    "time": "00:05"
   }
 ]
