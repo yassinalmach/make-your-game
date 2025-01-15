@@ -3,9 +3,10 @@ import SpaceShip from "./modules/spaceShip.js";
 import AlienGrid from "./modules/alienGrid.js";
 import VisualEffect from "./modules/visuals.js";
 import StoryMode from "./modules/storyMode.js";
-import { postScore, fetchScores, renderScoreboard } from "./score_handling.js";
+import { postScore, fetchScores } from "./score_handling.js";
 import { maps } from "./maps.js";
 
+let canResize = true
 let selectedMap = null;
 let effects = new VisualEffect();
 let game, storyMode, ship, aliens;
@@ -60,6 +61,7 @@ const setupEvents = () => {
     resetGame(200);
     document.getElementById("scoreboard").remove();
     playAgain.style.display = "none";
+    canResize = true
   });
 
   window.addEventListener("keydown", (e) => {
@@ -93,6 +95,7 @@ const setupEvents = () => {
 
 // game loop function
 const gameLoop = () => {
+  if (document.getElementById("play-again").style.display === 'block') canResize = false;
   if (!game.isPaused) {
     game.updateState();
     storyMode.checkProgress();
@@ -140,7 +143,7 @@ const resetGame = (time, isResize = false) => {
 const isVictory = async (victory, time, score) => {
   setTimeout(() => {
     const element = storyMode.showEnding(victory);
-    element.querySelector("button").addEventListener("click", async (e) => {
+    element.querySelector("button").addEventListener("click", async () => {
       const data = {
         name: element.querySelector("input#player-name").value,
         time: time,
@@ -149,14 +152,16 @@ const isVictory = async (victory, time, score) => {
 
       try {
         const response = await postScore(data);
-        if (response) {
-          await fetchScores(); 
+        if (response.message === "success") {
+          await fetchScores();
+        } else {
+          throw "error"
         }
       } catch (error) {
         console.error("Error submitting score:", error.message);
         alert("Failed to submit score. Please try again later.");
       }
-      element.remove(); 
+      element.remove();
     });
   }, 2000);
 };
@@ -178,10 +183,12 @@ document.getElementById("start").addEventListener("click", () => {
 // restarts the game in case of resizing the page width
 let resizeTimeout;
 window.addEventListener("resize", () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    resetGame(0, true);
-  }, 500);
+  if (canResize) {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      resetGame(0, true);
+    }, 500);
+  }
 });
 
 // Initialize map selection when the page loads
