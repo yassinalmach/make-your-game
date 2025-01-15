@@ -1,39 +1,46 @@
 import Alien from "./alien.js";
 
 export default class AlienGrid {
-    constructor(gameState, visualEffect) {
+    constructor(gameState, visualEffect, map) {
         this.gameArea = gameState.gameArea;
         this.effects = visualEffect;
         this.aliens = [];
         this.direction = 1;
-        this.MOVE_SPEED = 1;
+        this.MOVE_SPEED = map.speed;
         this.dropDistance = 40;
 
-        this.columns = 8;
-        this.rows = 4;
+        this.columns = map.columns;
+        this.rows = map.rows;
+        this.aliens_count = map.aliens_count;
         this.x_Spacing = this.gameArea.offsetWidth / 13; // default it was 60
         this.y_Spacing = this.gameArea.offsetWidth / 16; // default it was 50
 
         this.bullets = new Set();
-        this.BULLET_SPEED = 4;
+        this.BULLET_SPEED = map.bullet_speed;
 
-        this.createAlienGrid();
+        this.createAlienGrid(map);
+
     }
 
-    createAlienGrid() {
+    createAlienGrid(map) {
         const startX = (this.gameArea.clientWidth - (this.columns * this.x_Spacing)) / 2;
         const startY = 50;
-
+    
+        let tileIndex = 0;
         for (let row = 0; row < this.rows; row++) {
             for (let col = 0; col < this.columns; col++) {
-                const x = startX + (col * this.x_Spacing);
-                const y = startY + (row * this.y_Spacing);
-
-                const alien = new Alien(x, y, this.gameArea);
-                this.aliens.push(alien);
+                if (map.tiles[tileIndex] === 1) {
+                    const x = startX + (col * this.x_Spacing);
+                    const y = startY + (row * this.y_Spacing);
+    
+                    const alien = new Alien(x, y, this.gameArea, map.alien);
+                    this.aliens.push(alien);
+                }
+                tileIndex++;
             }
         }
     }
+    
 
     updateGridPosition() {
         const edge = this.getGridEdges()
@@ -90,13 +97,10 @@ export default class AlienGrid {
 
     updateDifficulty() {
         const totalAlive = this.aliens.filter(alien => alien.isAlive).length;
-        const totalAliens = this.rows * this.columns;
-        const percente = totalAlive * 100 / totalAliens;
-        if (percente < 10) this.MOVE_SPEED = 5
-        else if (percente < 20) this.MOVE_SPEED = 4;
-        else if (percente < 40) this.MOVE_SPEED = 3.5;
-        else if (percente < 60) this.MOVE_SPEED = 3;
-        else if (percente < 80) this.MOVE_SPEED = 2;
+        const percente = totalAlive * 100 / this.aliens_count;
+        if (percente < 10) this.MOVE_SPEED = 6
+        else if (percente < 20) this.MOVE_SPEED = 5;
+        else if (percente < 40) this.MOVE_SPEED = 4;
     }
 
     getBottomAliens(startGrid) {

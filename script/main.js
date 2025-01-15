@@ -4,13 +4,39 @@ import AlienGrid from "./modules/alienGrid.js";
 import VisualEffect from "./modules/visuals.js";
 import StoryMode from "./modules/storyMode.js";
 import { postScore, fetchScores } from "./score_handling.js";
+import { maps } from "./maps.js";
 
-// init all objects
+let canResize = true
+let direction = 1
+let selectedMap = null;
 let effects = new VisualEffect();
-let game = new GameState(effects);
-let storyMode = new StoryMode(game);
-let ship = new SpaceShip(game);
-let aliens = new AlienGrid(game, effects);
+let game, storyMode, ship, aliens;
+
+// Initialize map selection
+const initMapSelection = () => {
+  const mapCards = document.querySelectorAll('.map-card');
+  const startContainer = document.getElementById("start-container");
+  const mapSelectContainer = document.getElementById("map-select-container");
+
+  mapCards.forEach(card => {
+    card.addEventListener('click', () => {
+      selectedMap = maps.get(card.dataset.map);
+      
+      setTimeout(() => {
+        mapSelectContainer.remove();
+        startContainer.style.display = 'flex';
+      }, 500);
+    });
+  });
+};
+
+// Initialize game objects
+const initGameObjects = () => {
+  game = new GameState(effects);
+  storyMode = new StoryMode(game);
+  ship = new SpaceShip(game, selectedMap.spaceship);
+  aliens = new AlienGrid(game, effects, selectedMap);
+};
 
 // init events
 const setupEvents = () => {
@@ -31,6 +57,7 @@ const setupEvents = () => {
     resetGame(200);
     document.getElementById("scoreboard").remove();
     playAgain.style.display = "none";
+    canResize = true
   });
 
   window.addEventListener("keydown", (e) => {
@@ -64,6 +91,9 @@ const setupEvents = () => {
 
 // game loop function
 const gameLoop = () => {
+  document.getElementById('secret').style.transform = `translateX(${direction}px)`
+  direction *= -1
+  if (document.getElementById("play-again").style.display === 'block') canResize = false;
   if (!game.isPaused) {
     game.updateState();
     storyMode.checkProgress();
@@ -97,30 +127,26 @@ const gameLoop = () => {
 };
 
 // reset the Game params
-const resetGame = (time) => {
+const resetGame = (time, isResize = false) => {
   setTimeout(() => {
     game.gameArea.innerHTML = "";
     game = new GameState(effects);
-    ship = new SpaceShip(game);
+    ship = new SpaceShip(game, selectedMap.spaceship);
     storyMode = new StoryMode(game);
-    aliens = new AlienGrid(game, effects);
-    storyMode.showIntro();
+    aliens = new AlienGrid(game, effects, selectedMap);
+    if (!isResize) storyMode.showIntro();
   }, time);
 };
-
-let isPlayAgain = false
 
 const isVictory = async (victory, time, score) => {
   setTimeout(() => {
     const element = storyMode.showEnding(victory);
     element.querySelector("button").addEventListener("click", async () => {
-      isPlayAgain = true
       const data = {
         name: element.querySelector("input#player-name").value,
         time: time,
         score: score,
       };
-
 
       try {
         const response = await postScore(data);
@@ -134,29 +160,31 @@ const isVictory = async (victory, time, score) => {
         alert("Failed to submit score. Please try again later.");
       }
       element.remove();
-      isPlayAgain = false
-
     });
   }, 2000);
 };
 
-// Start the game
 document.getElementById("start").addEventListener("click", () => {
+  if (!selectedMap) {
+    alert("Please select a map first!");
+    return;
+  }
   const startContainer = document.getElementById("start-container");
   startContainer.remove();
+  initGameObjects();
   storyMode.showIntro();
   setupEvents();
   requestAnimationFrame(gameLoop);
 });
 
-// restarts the game in case of resizing the page width
 let resizeTimeout;
 window.addEventListener("resize", () => {
-  if (isPlayAgain) return
-  clearTimeout(resizeTimeout); // Clear the previous timeout
-  resizeTimeout = setTimeout(() => {
-    const startContainer = document.getElementById("start-container");
-    startContainer.remove();
-    resetGame();
-  }, 500);
+  if (canResize) {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      resetGame(0, true);
+    }, 500);
+  }
 });
+
+initMapSelection();
