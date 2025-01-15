@@ -21,7 +21,7 @@ const initMapSelection = () => {
   mapCards.forEach(card => {
     card.addEventListener('click', () => {
       selectedMap = maps.get(card.dataset.map);
-      
+
       setTimeout(() => {
         mapSelectContainer.remove();
         startContainer.style.display = 'flex';
@@ -148,18 +148,21 @@ const isVictory = async (victory, time, score) => {
         score: score,
       };
 
-      try {
-        const response = await postScore(data);
-        if (response.message === "success") {
-          await fetchScores();
-        } else {
-          throw "error"
-        }
-      } catch (error) {
-        console.error("Error submitting score:", error.message);
-        alert("Failed to submit score. Please try again later.");
-      }
+      // try {
+      //   const response = await postScore(data);
+      //   if (response.message === "success") {
+      //     await fetchScores();
+      //   } else {
+      //     throw "error"
+      //   }
+      // } catch (error) {
+      //   console.error("Error submitting score:", error.message);
+      //   alert("Failed to submit score. Please try again later.");
+      // }
       element.remove();
+      game.isPaused = false;
+      storyMode.viewStory = false;
+      resetGame(0)
     });
   }, 2000);
 };
